@@ -1,0 +1,24 @@
+
+db:
+  image: mongo:3.2.0
+
+web:
+  extends:
+    file: docker-compose-common.yml
+    service: web
+  environment:
+    NODE_RUN_ENV: local
+    SITE_NAME: Keystone
+    ADMIN_FIRST_NAME: John
+    ADMIN_LAST_NAME: Doe
+    ADMIN_EMAIL: johndoe@keystonejs.com
+    ADMIN_PASSWORD: changeme
+    CLOUDINARY_URL: 
+  volumes:
+  - ./src:/src
+  entrypoint: ./node_modules/nodemon/bin/nodemon.js
+  command: --watch /src --legacy-watch index.js
+  links:
+  - db
+  ports:
+  - '80:3000'

@@ -1,0 +1,6 @@
+
+web:
+  image: node:4.2.4
+  working_dir: /src
+  entrypoint: node
+  command: index.js

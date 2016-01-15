@@ -1,0 +1,14 @@
+{
+  "name": "paradise-slice",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Paradise Slice site",
+  "author": "Mike Farrow <contact@mikefarrow.co.uk>",
+  "dependencies": {
+    "nodemon": "1.8.1",
+    "keystone": "0.3.16",
+    "underscore": "1.8.3",
+    "underscore.string": "3.2.2",
+    "async": "1.5.2"
+  }
+}
