@@ -1,8 +1,8 @@
 {
-  "name": "paradise-slice",
+  "name": "keystone-framework",
   "private": true,
   "version": "1.0.0",
-  "description": "Paradise Slice site",
+  "description": "Docker based Keystone framework",
   "author": "Mike Farrow <contact@mikefarrow.co.uk>",
   "dependencies": {
     "nodemon": "1.8.1",
