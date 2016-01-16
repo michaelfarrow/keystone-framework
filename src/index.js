@@ -15,6 +15,10 @@ keystone.init({
   'auto update': true,
   'mongo': 'mongodb://db/project',
   
+  'session store': 'mongo',
+  'session options': {
+    'cookie': { 'maxAge': 31104000  }
+  },
   'session': true,
   'auth': true,
   'user model': 'User',
@@ -26,10 +30,12 @@ keystone.import('models');
  
 keystone.set('routes', require('./routes'));
 
+console.log(keystone.content.editable);
+
 keystone.set('locals', {
-	env: keystone.get('env'),
-	utils: keystone.utils,
-	editable: keystone.content.editable,
+  env: keystone.get('env'),
+  utils: keystone.utils,
+  editable: keystone.content.editable,
 });
 
 keystone.start();
