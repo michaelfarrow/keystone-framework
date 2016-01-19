@@ -8,3 +8,12 @@ npm:
   - ~/.npm:/root/.npm
   entrypoint: npm
   command: --help
+
+node:
+  extends:
+    file: docker-compose-common.yml
+    service: web
+  volumes:
+  - ./src:/src
+  entrypoint: node
+  command: []
