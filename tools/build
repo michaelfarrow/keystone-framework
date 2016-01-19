@@ -24,3 +24,6 @@ fi
 
 heading "Installing NPM dependencies"
 tools/npm install $npm_args
+
+heading "Gulping"
+tools/gulp

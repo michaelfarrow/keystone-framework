@@ -20,7 +20,7 @@ The application should now be running on port 80. If you're using boot2docker, r
 
 ### Tools
 
-NPM has a proxy script located in `./tools`, which will run the correct docker-compose commands. For example, to update NPM dependencies, use:
+Node, NPM and Gulp have a proxy script located in `./tools`, which will run the correct docker-compose commands. For example, to update NPM dependencies, use:
 
 ```bash
 tools/npm update
