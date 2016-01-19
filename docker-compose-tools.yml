@@ -17,3 +17,5 @@ node:
   - ./src:/src
   entrypoint: node
   command: []
+  ports:
+  - '35729:35729'

@@ -1,2 +1,6 @@
 /node_modules/
 /npm-debug.log
+/public/js/vendor/
+/public/cache/
+/public/css
+/.cache-require-paths.json
