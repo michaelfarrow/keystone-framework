@@ -1,117 +1,163 @@
 
-var gulp       = require('gulp'),
-    livereload = require('gulp-livereload'),
-    _          = require('underscore'),
-    jshint     = require('gulp-jshint'),
-    jshint_s   = require('jshint-stylish'),
-    modernizr  = require('gulp-modernizr'),
-    uglify     = require('gulp-uglify'),
-    concat     = require('gulp-concat');
+var gulp          = require('gulp'),
+    nodedev       = require('node-dev'),
+    sequence      = require('run-sequence'),
+    child_process = require('child_process'),
+    livereload    = require('gulp-livereload'),
+    _             = require('underscore'),
+    wait          = require('gulp-wait'),
+    cache         = require('gulp-cached'),
+    jshint        = require('gulp-jshint'),
+    jshint_s      = require('jshint-stylish'),
+    modernizr     = require('gulp-modernizr'),
+    uglify        = require('gulp-uglify'),
+    concat        = require('gulp-concat');
 
 var modernizrTests = [];
 
 var vendorJs = [];
+var projectJs = [
+  'models/**/*.js',
+  'routes/**/*.js',
+  'updates/**/*.js',
+  'index.js',
+  'gulpfile.js',
+];
 
 function handleError(err) {
-    this.emit('end');
+  this.emit('end');
 }
 
 function handleErrorWithMessage(err) {
-    console.log(err);
-    this.emit('end');
+  console.log(err);
+  this.emit('end');
 }
 
 gulp.task('concat-vendor-js', function(){
 
-    return gulp.src(_.map(vendorJs, function(file){
-        return path.node_modules(file).s();
-    }))
-        .pipe(concat('all.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(path.js().vendor().s()));
+  return gulp.src(_.map(vendorJs, function(file){
+    return path.node_modules(file).s();
+  }))
+  .pipe(concat('all.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest(path.js().vendor().s()));
 });
 
 gulp.task('custom-modernizr', function() {
 
-    return gulp.src(path.base().append('index.js').s())
-        .pipe(modernizr({
-            options: [
-                'setClasses',
-                'addTest',
-                'html5printshiv',
-                'testProp',
-                'fnBind'
-            ],
-            tests: modernizrTests
-        }))
-        .pipe(uglify())
-        .pipe(gulp.dest(path.js().vendor().s()));
+  return gulp.src(path.base().append('index.js').s())
+  .pipe(modernizr({
+    options: [
+      'setClasses',
+      'addTest',
+      'html5printshiv',
+      'testProp',
+      'fnBind'
+    ],
+    tests: modernizrTests
+  }))
+  .pipe(uglify())
+  .pipe(gulp.dest(path.js().vendor().s()));
 });
 
 gulp.task('lint-js', function() {
-    // return gulp.src([
- //            path.js().append('/**/*.js').s(),
- //            '!' + path.js().vendor().append('*.js').s()
- //        ])
-
-    return gulp.src([
-            path.base().append('*.js').s()
-        ])
-        .pipe(jshint())
-        .pipe(jshint.reporter(jshint_s))
-        .pipe(jshint.reporter('fail'));
+  return gulp.src(_.map(projectJs, function(files){
+    return path.base().append(files).s();
+  }))
+  .pipe(jshint())
+  .pipe(jshint.reporter(jshint_s))
+  .pipe(cache('lint-js'))
+  .pipe(livereload());
 });
 
 
 gulp.task('build', [
-    'concat-vendor-js',
-    'custom-modernizr',
-    'lint-js',
+  'concat-vendor-js',
+  'custom-modernizr',
+  'lint-js',
 ]);
 
 gulp.task('default', [
-    'build',
+  'build',
 ]);
 
-gulp.task('test', function(){
-    return gulp.src(path.base().append('gulpfile.js').s())
-        .pipe(livereload());
-});
+var child, busy, loaded = false;
+
+var server = function(cb) {
+  if (busy) return;
+
+  var errorCallback = function(){
+    child = null;
+    cb();
+  }
+
+  function spawn() {
+    child = child_process.fork('index.js', {
+      cwd: process.cwd(),
+      env: process.env
+    });
+
+    if(cb) {
+      child.on('exit', errorCallback);
+      child.on('message', function(m){
+        if(m == 'loaded'){
+          loaded = true;
+          child.removeListener('exit', errorCallback);
+          gulp.src(_.map(projectJs, function(files){
+            return path.base().append(files).s();
+          })).pipe(livereload());
+          cb();
+        }
+      });
+    }
+
+    busy = false;
+  }
+
+  if (child) {
+    busy = true;
+    child.once('exit', spawn);
+    if(loaded) {
+      child.send('exit');
+    } else {
+      child.kill();
+    }
+  } else {
+    spawn();
+  }
+};
+
+gulp.task('server', server);
 
 gulp.task('watch', function() {
 
-    livereload.listen();
+  livereload.listen();
 
-    // .pipe(plugins.livereload())
+  gulp.watch(_.map(projectJs, function(files){
+    return path.base().append(files).s();
+  }), ['server']);
 
- //    gulp.watch(path.sass().append('*.scss').s(), ['compile-compass']);
+  server();
 
-    gulp.watch([
-        path.base().append('gulpfile.js').s()
-    ], ['test']);
-
-//    gulp.watch([
-//        path.base().append('*.js').s()
-//    ], ['lint-js']);
 });
 
 process.on('SIGINT', function(){ process.exit(); });
 
 function path(p, f){
-    if(f) f = '/' + f;
-    this.path = p + path.format(f);
+  if(f) f = '/' + f;
+  this.path = p + path.format(f);
 }
 
 path.base = function() {
-    return new path('.');
+  return new path('.');
 };
 
 path.public = function() {
-    return path.base().append('public');
+  return path.base().append('public');
 };
 
 path.node_modules = function(p) {
-    return path.base().append('node_modules').append(p);
+  return path.base().append('node_modules').append(p);
 };
 
 // path.sass = function() {
@@ -131,32 +177,39 @@ path.node_modules = function(p) {
 // };
 
 path.js = function() {
-    return path.public().append('js');
+  return path.public().append('js');
 };
 
 path.format = function(p) {
-    if(!p) return '';
-    return p;
+  if(!p) return '';
+  return p;
 };
 
 path.prototype = {
 
-    path: '',
+  path: '',
 
-    toString: function(){
-        return this.path;
-    },
+  toString: function(){
+    return this.path;
+  },
 
-    s: function(){
-        return this.toString();
-    },
+  s: function(){
+    return this.toString();
+  },
 
-    append: function(p) {
-        return new path(this.path, p);
-    },
+  append: function(p) {
+    return new path(this.path, p);
+  },
 
-    vendor: function() {
-        return this.append('vendor');
-    }
+  vendor: function() {
+    return this.append('vendor');
+  },
+
+  not: function() {
+    if (this.path[0] != '!')
+    this.path = '!' + this.path;
+
+    return this;
+  }
 
 };

@@ -15,7 +15,7 @@ User.add({
 User.schema.methods.wasActive = function () {
   this.lastActiveOn = new Date();
   return this;
-}
+};
 
 User.track = true;
 User.defaultColumns = 'name, email';

@@ -4,21 +4,26 @@ var startTime = new Date().getTime();
 
 require('cache-require-paths');
 
+// respond to exit message from parent process (Gulp)
+process.on('message', function(m) {
+  if(m == 'exit') process.exit();
+});
+
 console.log('KeystoneJS Loading...');
 var keystone = require('keystone');
 
 console.log('KeystoneJS Init');
 keystone.init({
-  
+
   'name': process.env.SITE_NAME || 'Keystone',
   'brand': process.env.SITE_BRAND || process.env.SITE_NAME || 'Keystone',
 
   'favicon': 'public/favicon.ico',
   'static': 'public',
-  
+
   'views': 'templates/views',
   'view engine': 'jade',
-  
+
   'mongo': 'mongodb://db/project',
 
   'auto update': true,
@@ -36,7 +41,7 @@ keystone.init({
   'auth': true,
   'user model': 'User',
   'cookie secret': process.env.COOKIE_SECRET || 'development',
-  
+
 });
 
 console.log('KeystoneJS Config');
@@ -59,4 +64,5 @@ console.log('KeystoneJS Starting...');
 keystone.start(function(){
   var endTime = new Date().getTime();
   console.log('Loaded in', ((endTime - startTime) / 1000) + "s");
+  process.send('loaded');
 });
