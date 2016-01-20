@@ -5,10 +5,11 @@
   "description": "Docker based Keystone framework",
   "author": "Mike Farrow <contact@mikefarrow.co.uk>",
   "devDependencies": {
-    "node-dev": "https://github.com/weyforth/node-dev.git#master",
     "cache-require-paths": "0.1.2",
     "gulp": "3.9.0",
+    "run-sequence": "1.1.5",
     "gulp-livereload": "3.8.1",
+    "gulp-cached": "1.1.0",
     "gulp-jshint": "2.0.0",
     "jshint-stylish": "2.1.0",
     "modernizr": "3.3.1",

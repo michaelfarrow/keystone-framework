@@ -1,11 +1,10 @@
 
 var gulp          = require('gulp'),
     nodedev       = require('node-dev'),
-    sequence      = require('run-sequence'),
     child_process = require('child_process'),
     livereload    = require('gulp-livereload'),
+    sequence      = require('run-sequence'),
     _             = require('underscore'),
-    wait          = require('gulp-wait'),
     cache         = require('gulp-cached'),
     jshint        = require('gulp-jshint'),
     jshint_s      = require('jshint-stylish'),
@@ -22,6 +21,10 @@ var projectJs = [
   'updates/**/*.js',
   'index.js',
   'gulpfile.js',
+];
+var frontEndFiles = [
+  'public/**/*.*',
+  'templates/**/*.*',
 ];
 
 function handleError(err) {
@@ -66,20 +69,19 @@ gulp.task('lint-js', function() {
   }))
   .pipe(jshint())
   .pipe(jshint.reporter(jshint_s))
-  .pipe(cache('lint-js'))
-  .pipe(livereload());
+  .pipe(jshint.reporter('fail'));
 });
 
-
-gulp.task('build', [
-  'concat-vendor-js',
-  'custom-modernizr',
-  'lint-js',
-]);
-
-gulp.task('default', [
-  'build',
-]);
+//
+// gulp.task('build', [
+//   'concat-vendor-js',
+//   'custom-modernizr',
+//   'lint-js',
+// ]);
+//
+// gulp.task('default', [
+//   'build',
+// ]);
 
 var child, busy, loaded = false;
 
@@ -88,8 +90,8 @@ var server = function(cb) {
 
   var errorCallback = function(){
     child = null;
-    cb();
-  }
+    if(cb) cb();
+  };
 
   function spawn() {
     child = child_process.fork('index.js', {
@@ -97,19 +99,26 @@ var server = function(cb) {
       env: process.env
     });
 
-    if(cb) {
-      child.on('exit', errorCallback);
-      child.on('message', function(m){
-        if(m == 'loaded'){
-          loaded = true;
-          child.removeListener('exit', errorCallback);
-          gulp.src(_.map(projectJs, function(files){
-            return path.base().append(files).s();
-          })).pipe(livereload());
-          cb();
-        }
-      });
-    }
+    child.on('exit', errorCallback);
+
+    child.on('message', function(m){
+      if(m == 'loaded'){
+        loaded = true;
+        child.removeListener('exit', errorCallback);
+
+        gulp.src(_.map(projectJs, function(files){
+          return path.base().append(files).s();
+        }))
+          .pipe(cache('server'))
+          .pipe(livereload());
+
+        // wait for half a second while keystone handles the request,
+        // otherwise if a change is made in this time and the task is
+        // restarted, the connection will be dropped and livereload
+        // will turn off in the browser
+        if(cb) setTimeout(cb, 500);
+      }
+    });
 
     busy = false;
   }
@@ -129,13 +138,29 @@ var server = function(cb) {
 
 gulp.task('server', server);
 
+gulp.task('frontend', function(callback) {
+  return gulp.src(_.map(frontEndFiles, function(files){
+    return path.base().append(files).s();
+  }))
+    .pipe(cache('frontend'))
+    .pipe(livereload());
+});
+
+gulp.task('build', function(callback) {
+  sequence('lint-js', 'server', callback);
+});
+
 gulp.task('watch', function() {
 
   livereload.listen();
 
   gulp.watch(_.map(projectJs, function(files){
     return path.base().append(files).s();
-  }), ['server']);
+  }), ['build']);
+
+  gulp.watch(_.map(frontEndFiles, function(files){
+    return path.base().append(files).s();
+  }), ['frontend']);
 
   server();
 
