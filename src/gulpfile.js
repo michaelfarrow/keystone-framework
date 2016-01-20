@@ -1,6 +1,7 @@
 
 var gulp          = require('gulp'),
-    nodedev       = require('node-dev'),
+    Queue         = require('gulp-queue')(gulp),
+    queue         = new Queue(),
     child_process = require('child_process'),
     livereload    = require('gulp-livereload'),
     sequence      = require('run-sequence'),
@@ -23,8 +24,9 @@ var projectJs = [
   'gulpfile.js',
 ];
 var frontEndFiles = [
-  'public/**/*.*',
-  'templates/**/*.*',
+  'public/sass/**/*.scss',
+  'public/js/**/*.js',
+  'templates/**/*.jade',
 ];
 
 function handleError(err) {
@@ -68,8 +70,8 @@ gulp.task('lint-js', function() {
     return path.base().append(files).s();
   }))
   .pipe(jshint())
-  .pipe(jshint.reporter(jshint_s))
-  .pipe(jshint.reporter('fail'));
+  .pipe(jshint.reporter(jshint_s));
+  // .pipe(jshint.reporter('fail'));
 });
 
 //
@@ -156,11 +158,12 @@ gulp.task('watch', function() {
 
   gulp.watch(_.map(projectJs, function(files){
     return path.base().append(files).s();
-  }), ['build']);
+  }), queue(['build']));
 
   gulp.watch(_.map(frontEndFiles, function(files){
+    console.log(path.base().append(files).s());
     return path.base().append(files).s();
-  }), ['frontend']);
+  }), queue(['frontend']));
 
   server();
 

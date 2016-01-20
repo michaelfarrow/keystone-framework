@@ -53,14 +53,7 @@ keystone.set('locals', {
   utils: keystone.utils
 });
 
-keystone.set('locals', {
-  env: keystone.get('env'),
-  utils: keystone.utils,
-  editable: keystone.content.editable,
-});
-
 console.log('KeystoneJS Starting...');
-
 keystone.start(function(){
   var endTime = new Date().getTime();
   console.log('Loaded in', ((endTime - startTime) / 1000) + "s");
