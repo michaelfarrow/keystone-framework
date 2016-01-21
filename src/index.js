@@ -26,6 +26,11 @@ keystone.init({
 
   'mongo': 'mongodb://db/project',
 
+  'session store': 'mongo',
+  'session options': {
+    'cookie': { 'maxAge': 31104000  }
+  },
+
   'auto update': true,
 
   'sass': 'public',
@@ -57,5 +62,5 @@ console.log('KeystoneJS Starting...');
 keystone.start(function(){
   var endTime = new Date().getTime();
   console.log('Loaded in', ((endTime - startTime) / 1000) + "s");
-  process.send('loaded');
+  if(process.send) process.send('loaded');
 });

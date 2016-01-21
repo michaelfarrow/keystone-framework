@@ -13,7 +13,7 @@ You must have Docker and Docker Compose installed before beginning.
 
 ```bash
 tools/build
-docker-compose up -d
+tools/gulp watch
 ```
 
 The application should now be running on port 80. If you're using boot2docker, run `boot2docker ip` to get the ip address of the virtual machine.

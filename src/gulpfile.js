@@ -13,21 +13,47 @@ var gulp          = require('gulp'),
     uglify        = require('gulp-uglify'),
     concat        = require('gulp-concat');
 
-var modernizrTests = [];
-
-var vendorJs = [];
-var projectJs = [
-  'models/**/*.js',
-  'routes/**/*.js',
-  'updates/**/*.js',
-  'index.js',
-  'gulpfile.js',
-];
-var frontEndFiles = [
-  'public/sass/**/*.scss',
-  'public/js/**/*.js',
-  'templates/**/*.jade',
-];
+var config = {
+  modernizr: {
+    options: [
+      'setClasses',
+      'addTest',
+      'html5printshiv',
+      'testProp',
+      'fnBind'
+    ],
+    tests: []
+  },
+  files: {
+    js: {
+      vendor: [],
+      backend: {
+        watch: [
+          'models/**/*.js',
+          'routes/**/*.js',
+          'updates/**/*.js',
+          'index.js',
+          'gulpfile.js',
+        ],
+        ignore: []
+      },
+      frontend: {
+        watch: [
+          'public/js/**/*.js',
+        ],
+        ignore: [
+          'public/js/vendor/**/*.js',
+        ]
+      },
+    },
+    assets: {
+      watch: [
+        'public/sass/**/*.scss',
+        'templates/**/*.jade',
+      ]
+    }
+  }
+};
 
 function handleError(err) {
   this.emit('end');
@@ -40,7 +66,7 @@ function handleErrorWithMessage(err) {
 
 gulp.task('concat-vendor-js', function(){
 
-  return gulp.src(_.map(vendorJs, function(file){
+  return gulp.src(_.map(config.files.js.vendor, function(file){
     return path.node_modules(file).s();
   }))
   .pipe(concat('all.js'))
@@ -52,38 +78,36 @@ gulp.task('custom-modernizr', function() {
 
   return gulp.src(path.base().append('index.js').s())
   .pipe(modernizr({
-    options: [
-      'setClasses',
-      'addTest',
-      'html5printshiv',
-      'testProp',
-      'fnBind'
-    ],
-    tests: modernizrTests
+    options: config.modernizr.options,
+    tests: config.modernizr.tests,
   }))
   .pipe(uglify())
   .pipe(gulp.dest(path.js().vendor().s()));
 });
 
-gulp.task('lint-js', function() {
-  return gulp.src(_.map(projectJs, function(files){
-    return path.base().append(files).s();
-  }))
+gulp.task('lint-frontend-js', function() {
+  return gulp.src(frontendJS)
   .pipe(jshint())
-  .pipe(jshint.reporter(jshint_s));
-  // .pipe(jshint.reporter('fail'));
+  .pipe(jshint.reporter(jshint_s))
+  .pipe(livereload());
 });
 
-//
-// gulp.task('build', [
-//   'concat-vendor-js',
-//   'custom-modernizr',
-//   'lint-js',
-// ]);
-//
-// gulp.task('default', [
-//   'build',
-// ]);
+gulp.task('lint-backend-js', function() {
+  return gulp.src(backendJS)
+  .pipe(jshint())
+  .pipe(jshint.reporter(jshint_s));
+});
+
+gulp.task('build', [
+  'concat-vendor-js',
+  'custom-modernizr',
+  'lint-backend-js',
+  'lint-frontend-js',
+]);
+
+gulp.task('default', [
+  'build',
+]);
 
 var child, busy, loaded = false;
 
@@ -92,7 +116,7 @@ var server = function(cb) {
 
   var errorCallback = function(){
     child = null;
-    if(cb) cb();
+    if(cb) setTimeout(cb, 500);
   };
 
   function spawn() {
@@ -108,9 +132,7 @@ var server = function(cb) {
         loaded = true;
         child.removeListener('exit', errorCallback);
 
-        gulp.src(_.map(projectJs, function(files){
-          return path.base().append(files).s();
-        }))
+        gulp.src(backendJS)
           .pipe(cache('server'))
           .pipe(livereload());
 
@@ -140,30 +162,34 @@ var server = function(cb) {
 
 gulp.task('server', server);
 
-gulp.task('frontend', function(callback) {
-  return gulp.src(_.map(frontEndFiles, function(files){
+gulp.task('assets', function(callback) {
+  return gulp.src(_.map(config.files.assets.watch, function(files){
     return path.base().append(files).s();
   }))
-    .pipe(cache('frontend'))
+    .pipe(cache('assets'))
     .pipe(livereload());
 });
 
-gulp.task('build', function(callback) {
+gulp.task('backend', function(callback) {
   sequence('lint-js', 'server', callback);
 });
+
+gulp.task('backend', function(callback) {
+  sequence('lint-backend-js', 'server', callback);
+});
+
+gulp.task('frontend', ['lint-frontend-js']);
 
 gulp.task('watch', function() {
 
   livereload.listen();
 
-  gulp.watch(_.map(projectJs, function(files){
-    return path.base().append(files).s();
-  }), queue(['build']));
+  gulp.watch(backendJS, queue(['backend']));
+  gulp.watch(frontendJS, queue(['frontend']));
 
-  gulp.watch(_.map(frontEndFiles, function(files){
-    console.log(path.base().append(files).s());
+  gulp.watch(_.map(config.files.assets.watch, function(files){
     return path.base().append(files).s();
-  }), queue(['frontend']));
+  }), queue(['assets']));
 
   server();
 
@@ -241,3 +267,15 @@ path.prototype = {
   }
 
 };
+
+var backendJS = _.map(config.files.js.backend.watch, function(files){
+  return path.base().append(files).s();
+}).concat(_.map(config.files.js.backend.ignore, function(files){
+  return path.base().append(files).not().s();
+}));
+
+var frontendJS = _.map(config.files.js.frontend.watch, function(files){
+  return path.base().append(files).s();
+}).concat(_.map(config.files.js.frontend.ignore, function(files){
+  return path.base().append(files).not().s();
+}));

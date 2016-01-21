@@ -8,10 +8,11 @@ web:
   entrypoint: node
   command: index.js
   environment:
-    NODE_RUN_ENV: local
+    NODE_ENV: local
     SITE_NAME: Keystone
     ADMIN_FIRST_NAME: John
     ADMIN_LAST_NAME: Doe
     ADMIN_EMAIL: johndoe@keystonejs.com
     ADMIN_PASSWORD: changeme
-    CLOUDINARY_URL: 
+    CLOUDINARY_URL:
+    GOOGLE_ANALYTICS_ID:
