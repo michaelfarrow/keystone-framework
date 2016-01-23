@@ -1,6 +1,8 @@
 
-var _ = require('underscore'),
-keystone = require('keystone');
+var _        = require('underscore');
+var keystone = require('keystone');
+var cache    = require('local-url-cache');
+
 
 /**
 Initialises the standard view locals.
@@ -12,7 +14,9 @@ exports.initLocals = function(req, res, next) {
 
   locals.user = req.user;
 
-  // Add your own local variables here
+  locals.cache = function(url) {
+    return cache.sync(url, '/src/public/cache', '/cache');
+  };
 
   next();
 

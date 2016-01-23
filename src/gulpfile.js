@@ -114,7 +114,7 @@ var child, busy, loaded = false;
 var server = function(cb) {
   if (busy) return;
 
-  var errorCallback = function(){
+  var exitCallback = function(){
     child = null;
     if(cb) setTimeout(cb, 500);
   };
@@ -125,12 +125,12 @@ var server = function(cb) {
       env: process.env
     });
 
-    child.on('exit', errorCallback);
+    child.on('exit', exitCallback);
 
     child.on('message', function(m){
       if(m == 'loaded'){
         loaded = true;
-        child.removeListener('exit', errorCallback);
+        child.removeListener('exit', exitCallback);
 
         gulp.src(backendJS)
           .pipe(cache('server'))
@@ -168,10 +168,6 @@ gulp.task('assets', function(callback) {
   }))
     .pipe(cache('assets'))
     .pipe(livereload());
-});
-
-gulp.task('backend', function(callback) {
-  sequence('lint-js', 'server', callback);
 });
 
 gulp.task('backend', function(callback) {
