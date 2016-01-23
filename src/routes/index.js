@@ -32,10 +32,10 @@ var routes = {
 // Bind Routes
 exports = module.exports = function(app) {
 
-  app.get('/admin', function(req, res, next) {
+  app.get('/admin', 'admin', function(req, res, next) {
     res.redirect('/keystone');
   });
 
-  app.get('/', routes.views.index);
+  app.get('/', 'home', routes.views.index);
 
 };

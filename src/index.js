@@ -4,6 +4,8 @@ var startTime = new Date().getTime();
 
 require('cache-require-paths');
 
+var Router = require('named-routes');
+
 // respond to exit message from parent process (Gulp)
 process.on('message', function(m) {
   if(m == 'exit') process.exit();
@@ -31,10 +33,22 @@ keystone.init({
     'cookie': { 'maxAge': 31104000  }
   },
 
+  'signin redirect': function(user, req, res){
+    res.redirect(user.canAccessKeystone ? '/keystone': '/');
+  },
+
+  'signout redirect': function(req, res){
+    res.redirect(res.locals.user && res.locals.user.canAccessKeystone ? '/keystone': '/');
+  },
+
   'auto update': true,
 
   'sass': 'public',
   'sass options': {
+    includePaths: [
+      '/src/node_modules/bootstrap-sass/assets/stylesheets',
+      '/src/node_modules/compass-mixins/lib'
+    ],
     root: '/src/public',
     src: 'sass',
     dest: 'css',
@@ -57,6 +71,10 @@ keystone.set('locals', {
   env: keystone.get('env'),
   utils: keystone.utils
 });
+
+var router = new Router();
+router.extendExpress(keystone.app);
+router.registerAppHelpers(keystone.app);
 
 console.log('KeystoneJS Starting...');
 keystone.start(function(){
