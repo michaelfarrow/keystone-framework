@@ -42,7 +42,7 @@ keystone.init({
   },
   'less': null,
 
-  'session': false,
+  'session': true,
   'auth': true,
   'user model': 'User',
   'cookie secret': process.env.COOKIE_SECRET || 'development',

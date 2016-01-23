@@ -9,4 +9,4 @@ block content
           h2= user.name.full
           h5= user.email
           if user.profileImage.url
-            img(src=cache(user._.profileImage.fill(150, 150)))
+            img(src=cached(user._.profileImage.fill(150, 150)))

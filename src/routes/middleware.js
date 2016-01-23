@@ -14,7 +14,7 @@ exports.initLocals = function(req, res, next) {
 
   locals.user = req.user;
 
-  locals.cache = function(url) {
+  locals.cached = function(url) {
     return cache.sync(url, '/src/public/cache', '/cache');
   };
 
@@ -37,6 +37,7 @@ exports.initErrorHandlers = function(req, res, next) {
 
   res.notfound = function(title, message) {
     res.status(404).render('errors/404', {
+      url: req.url,
       errorTitle: title,
       errorMsg: message
     });
