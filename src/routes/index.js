@@ -36,6 +36,10 @@ exports = module.exports = function(app) {
     res.redirect('/keystone');
   });
 
+  app.get('/signout', 'signout', function(req, res, next) {
+    res.redirect(keystone.get('signout url'));
+  });
+
   app.get('/', 'home', routes.views.index);
 
 };

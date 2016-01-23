@@ -1,7 +1,6 @@
 
 var gulp          = require('gulp'),
     Queue         = require('gulp-queue')(gulp),
-    queue         = new Queue(),
     child_process = require('child_process'),
     livereload    = require('gulp-livereload'),
     sequence      = require('run-sequence'),
@@ -11,7 +10,8 @@ var gulp          = require('gulp'),
     jshint_s      = require('jshint-stylish'),
     modernizr     = require('gulp-modernizr'),
     uglify        = require('gulp-uglify'),
-    concat        = require('gulp-concat');
+    concat        = require('gulp-concat'),
+    favicons      = require('gulp-favicons');
 
 var config = {
   modernizr: {
@@ -55,6 +55,8 @@ var config = {
   }
 };
 
+var queue = new Queue();
+
 function handleError(err) {
   this.emit('end');
 }
@@ -63,6 +65,33 @@ function handleErrorWithMessage(err) {
   console.log(err);
   this.emit('end');
 }
+
+gulp.task('generate-favicons', function(){
+  gulp.src(path.public().append('img/favicon.png').s())
+    .pipe(favicons({
+      background: '#FFFFFF',
+      path: '/img/favicons/',
+      display: 'browser',
+      orientation: 'portrait',
+      logging: false,
+      online: false,
+      html: path.templates().append('includes/favicons.html').s(),
+      replace: true,
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: true,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        windows: true,
+        yandex: true,
+        }
+    }))
+    .pipe(gulp.dest(path.images().append('favicons').s()));
+});
 
 gulp.task('concat-vendor-js', function(){
 
@@ -99,6 +128,7 @@ gulp.task('lint-backend-js', function() {
 });
 
 gulp.task('build', [
+  'generate-favicons',
   'concat-vendor-js',
   'custom-modernizr',
   'lint-backend-js',
@@ -210,6 +240,10 @@ path.node_modules = function(p) {
   return path.base().append('node_modules').append(p);
 };
 
+path.templates = function() {
+  return path.base().append('templates');
+};
+
 // path.sass = function() {
 //     return path.public().append('scss');
 // };
@@ -218,9 +252,9 @@ path.node_modules = function(p) {
 //     return path.public().append('css');
 // };
 
-// path.images = function() {
-//     return path.public().append('img');
-// };
+path.images = function() {
+    return path.public().append('img');
+};
 
 // path.fonts = function() {
 //     return path.public().append('fonts');

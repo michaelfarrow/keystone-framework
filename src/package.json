@@ -9,6 +9,7 @@
     "gulp": "3.9.0",
     "run-sequence": "1.1.5",
     "gulp-livereload": "3.8.1",
+    "gulp-favicons": "2.2.5",
     "gulp-queue": "0.1.2",
     "gulp-cached": "1.1.0",
     "gulp-jshint": "2.0.0",

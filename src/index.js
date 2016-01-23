@@ -20,7 +20,7 @@ keystone.init({
   'name': process.env.SITE_NAME || 'Keystone',
   'brand': process.env.SITE_BRAND || process.env.SITE_NAME || 'Keystone',
 
-  'favicon': 'public/favicon.ico',
+  'favicon': 'public/img/favicons/favicon.ico',
   'static': 'public',
 
   'views': 'templates/views',
