@@ -4,14 +4,17 @@ var gulp          = require('gulp'),
     child_process = require('child_process'),
     livereload    = require('gulp-livereload'),
     sequence      = require('run-sequence'),
-    _             = require('underscore'),
+    _             = require('lodash'),
     cache         = require('gulp-cached'),
     jshint        = require('gulp-jshint'),
     jshint_s      = require('jshint-stylish'),
     modernizr     = require('gulp-modernizr'),
     uglify        = require('gulp-uglify'),
     concat        = require('gulp-concat'),
-    favicons      = require('gulp-favicons');
+    favicons      = require('gulp-favicons'),
+    webpack       = require('webpack'),
+    gulpWebpack   = require('gulp-webpack');
+
 
 var config = {
   modernizr: {
@@ -42,6 +45,7 @@ var config = {
           'public/js/**/*.js',
         ],
         ignore: [
+          'public/js/**/*.min.js',
           'public/js/vendor/**/*.js',
         ]
       },
@@ -65,6 +69,13 @@ function handleErrorWithMessage(err) {
   console.log(err);
   this.emit('end');
 }
+
+gulp.task('webpack', function(){
+  return gulp.src(path.js().append('app.js').s())
+    .pipe(gulpWebpack(require('./webpack.config.js'), webpack))
+    .pipe(gulp.dest(path.js().s()))
+    .pipe(livereload());
+});
 
 gulp.task('generate-favicons', function(){
   gulp.src(path.public().append('img/favicon.png').s())
@@ -117,8 +128,7 @@ gulp.task('custom-modernizr', function() {
 gulp.task('lint-frontend-js', function() {
   return gulp.src(frontendJS)
   .pipe(jshint())
-  .pipe(jshint.reporter(jshint_s))
-  .pipe(livereload());
+  .pipe(jshint.reporter(jshint_s));
 });
 
 gulp.task('lint-backend-js', function() {
@@ -133,6 +143,7 @@ gulp.task('build', [
   'custom-modernizr',
   'lint-backend-js',
   'lint-frontend-js',
+  'webpack',
 ]);
 
 gulp.task('default', [
@@ -204,7 +215,7 @@ gulp.task('backend', function(callback) {
   sequence('lint-backend-js', 'server', callback);
 });
 
-gulp.task('frontend', ['lint-frontend-js']);
+gulp.task('frontend', ['lint-frontend-js', 'webpack']);
 
 gulp.task('watch', function() {
 

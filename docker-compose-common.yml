@@ -14,5 +14,5 @@ web:
     ADMIN_LAST_NAME: Doe
     ADMIN_EMAIL: johndoe@keystonejs.com
     ADMIN_PASSWORD: changeme
-    CLOUDINARY_URL:
+    CLOUDINARY_URL: cloudinary://153744383916364:vlZRCx4kb1OyZ85djgzgfjQOVbo@mikefarrow
     GOOGLE_ANALYTICS_ID:

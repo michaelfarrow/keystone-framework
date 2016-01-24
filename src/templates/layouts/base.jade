@@ -26,6 +26,7 @@ html
             p Powered by <a href='http://keystonejs.com', target='_blank'>KeystoneJS</a>.
         
     block js
+      script(src='/js/app.min.js')
 
     block analytics
       if env == 'production' && process.env.GOOGLE_ANALYTICS_ID
