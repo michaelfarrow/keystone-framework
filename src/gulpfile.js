@@ -6,14 +6,14 @@ var gulp          = require('gulp'),
     sequence      = require('run-sequence'),
     _             = require('lodash'),
     cache         = require('gulp-cached'),
-    jshint        = require('gulp-jshint'),
-    jshint_s      = require('jshint-stylish'),
+    // jshint        = require('gulp-jshint'),
+    // jshint_s      = require('jshint-stylish'),
     modernizr     = require('gulp-modernizr'),
     uglify        = require('gulp-uglify'),
     concat        = require('gulp-concat'),
     favicons      = require('gulp-favicons'),
     webpack       = require('webpack'),
-    gulpWebpack   = require('gulp-webpack');
+    gulpWebpack   = require('webpack-stream');
 
 
 var config = {
@@ -43,6 +43,7 @@ var config = {
       frontend: {
         watch: [
           'public/js/**/*.js',
+          'public/js/**/*.jsx',
         ],
         ignore: [
           'public/js/**/*.min.js',
@@ -70,11 +71,15 @@ function handleErrorWithMessage(err) {
   this.emit('end');
 }
 
-gulp.task('webpack', function(){
-  return gulp.src(path.js().append('app.js').s())
-    .pipe(gulpWebpack(require('./webpack.config.js'), webpack))
+function compileWebpack(){
+  return gulp.src(path.js().append('app.jsx').s())
+    .pipe(gulpWebpack(require('./webpack.config.js'), webpack).on('error', handleError))
     .pipe(gulp.dest(path.js().s()))
     .pipe(livereload());
+}
+
+gulp.task('webpack', function(){
+  return compileWebpack();
 });
 
 gulp.task('generate-favicons', function(){
@@ -141,8 +146,8 @@ gulp.task('build', [
   'generate-favicons',
   'concat-vendor-js',
   'custom-modernizr',
-  'lint-backend-js',
-  'lint-frontend-js',
+  // 'lint-backend-js',
+  // 'lint-frontend-js',
   'webpack',
 ]);
 
@@ -210,25 +215,26 @@ gulp.task('assets', function(callback) {
     .pipe(cache('assets'))
     .pipe(livereload());
 });
-
+//'lint-backend-js',
 gulp.task('backend', function(callback) {
-  sequence('lint-backend-js', 'server', callback);
+  sequence('server', callback);
 });
-
-gulp.task('frontend', ['lint-frontend-js', 'webpack']);
+//'lint-frontend-js',
+// gulp.task('frontend', ['webpack']);
 
 gulp.task('watch', function() {
 
   livereload.listen();
 
   gulp.watch(backendJS, queue(['backend']));
-  gulp.watch(frontendJS, queue(['frontend']));
+  gulp.watch(frontendJS, queue(['webpack']));
 
   gulp.watch(_.map(config.files.assets.watch, function(files){
     return path.base().append(files).s();
   }), queue(['assets']));
 
   server();
+  compileWebpack();
 
 });
 

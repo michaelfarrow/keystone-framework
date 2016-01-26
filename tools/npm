@@ -2,4 +2,4 @@
 
 set -e
 rm -f ./src/.cache-require-paths.json
-COMPOSE_FILE=docker-compose-tools.yml docker-compose run --rm npm --no-bin-links "$@"
+COMPOSE_FILE=docker-compose-tools.yml docker-compose run --rm npm "$@"

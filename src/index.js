@@ -2,7 +2,7 @@
 console.log('Starting');
 var startTime = new Date().getTime();
 
-require('cache-require-paths');
+// require('cache-require-paths');
 
 var Router = require('named-routes');
 
@@ -65,16 +65,17 @@ keystone.init({
 
 console.log('KeystoneJS Config');
 keystone.import('models');
+keystone.set('pre:routes', function(app){
+  var router = new Router();
+  router.extendExpress(app);
+  router.registerAppHelpers(app);
+});
 keystone.set('routes', require('./routes'));
 keystone.set('locals', {
   brand_name: keystone.get('brand'),
   env: keystone.get('env'),
   utils: keystone.utils
 });
-
-var router = new Router();
-router.extendExpress(keystone.app);
-router.registerAppHelpers(keystone.app);
 
 console.log('KeystoneJS Starting...');
 keystone.start(function(){

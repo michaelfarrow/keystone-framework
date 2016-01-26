@@ -1,5 +1,5 @@
 
-var _        = require('underscore');
+var _        = require('lodash');
 var keystone = require('keystone');
 var cache    = require('local-url-cache');
 
@@ -68,7 +68,7 @@ exports.flashMessages = function(req, res, next) {
     error: req.flash('error')
   };
 
-  res.locals.messages = _.any(flashMessages, function(msgs) {
+  res.locals.messages = _.some(flashMessages, function(msgs) {
     return msgs.length;
   }) ? flashMessages : false;
 
