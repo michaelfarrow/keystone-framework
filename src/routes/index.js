@@ -1,12 +1,5 @@
 
-var keystone = require('keystone'),
-middleware = require('./middleware'),
-importRoutes = keystone.importer(__dirname);
-
-// Common Middleware
-keystone.pre('routes', middleware.initErrorHandlers);
-keystone.pre('routes', middleware.initLocals);
-keystone.pre('render', middleware.flashMessages);
+var keystone = require('keystone');
 
 // Handle 404 errors
 keystone.set('404', function(req, res, next) {
@@ -24,22 +17,16 @@ keystone.set('500', function(err, req, res, next) {
   res.err(err, title, message);
 });
 
-// Load Routes
-var routes = {
-  views: importRoutes('./views')
-};
-
-// Bind Routes
 exports = module.exports = function(app) {
 
-  app.get('/admin', 'admin', function(req, res, next) {
-    res.redirect('/keystone');
+  // load middleware
+  app.use(function(req, res, next) {
+    require('./middleware')(req, res, next);
   });
 
-  app.get('/signout', 'signout', function(req, res, next) {
-    res.redirect(keystone.get('signout url'));
+  // load application routes
+  app.use(function(req, res, next) {
+    require('./app')(req, res, next);
   });
-
-  app.get('/', 'home', routes.views.index);
 
 };

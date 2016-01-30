@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tools/node node_modules/.bin/webpack "$@"

@@ -2,15 +2,6 @@
 console.log('Starting');
 var startTime = new Date().getTime();
 
-// require('cache-require-paths');
-
-var Router = require('named-routes');
-
-// respond to exit message from parent process (Gulp)
-process.on('message', function(m) {
-  if(m == 'exit') process.exit();
-});
-
 console.log('KeystoneJS Loading...');
 var keystone = require('keystone');
 
@@ -43,18 +34,8 @@ keystone.init({
 
   'auto update': true,
 
-  'sass': 'public',
-  'sass options': {
-    includePaths: [
-      '/src/node_modules/bootstrap-sass/assets/stylesheets',
-      '/src/node_modules/compass-mixins/lib'
-    ],
-    root: '/src/public',
-    src: 'sass',
-    dest: 'css',
-    prefix: '/css',
-  },
-  'less': null,
+  'sass': false,
+  'less': false,
 
   'session': true,
   'auth': true,
@@ -65,17 +46,75 @@ keystone.init({
 
 console.log('KeystoneJS Config');
 keystone.import('models');
-keystone.set('pre:routes', function(app){
-  var router = new Router();
-  router.extendExpress(app);
-  router.registerAppHelpers(app);
-});
 keystone.set('routes', require('./routes'));
 keystone.set('locals', {
   brand_name: keystone.get('brand'),
   env: keystone.get('env'),
   utils: keystone.utils
 });
+
+if(process.env.NODE_ENV != 'production'){
+  var webpack = require('webpack');
+  var config = require('./webpack.config');
+  config.watch = true;
+  var compiler = webpack(config);
+  var chokidar = require('chokidar');
+
+  keystone.set('pre:routes', function(app){
+    app.use(require("webpack-dev-middleware")(compiler, {
+      noInfo: false,
+      publicPath: config.output.publicPath,
+      lazy: false,
+      reload: true,
+      watchOptions: {
+        poll: true,
+        aggregateTimeout: 300,
+      },
+      stats: {
+        colors: true,
+      },
+    }));
+    app.use(require("webpack-hot-middleware")(compiler));
+  });
+
+  // Do "hot-reloading" of react stuff on the server
+  // Throw away the cached client modules and let them be re-required next time
+  // compiler.plugin('done', function() {
+  //   console.log("Clearing /client/ module cache from server");
+  //   // Object.keys(require.cache).forEach(function(id) {
+  //   //   if (/\/client\//.test(id)) delete require.cache[id];
+  //   // });
+  // });
+
+  var watcher = chokidar.watch([
+    './routes',
+    './models',
+  ], {
+    usePolling: true,
+    interval: 100,
+  });
+
+  watcher.on('ready', function() {
+    watcher.on('all', function() {
+      Object.keys(require.cache).forEach(function(id) {
+        if (/\/src\/routes\//.test(id))
+          delete require.cache[id];
+
+        var refreshModels = false;
+        if (/\/src\/models\//.test(id)){
+          delete require.cache[id];
+          refreshModels = true;
+        }
+
+        if(refreshModels){
+          keystone.mongoose.models = {};
+          keystone.mongoose.modelSchemas = {};
+          keystone.import('./models');
+        }
+      });
+    });
+  });
+}
 
 console.log('KeystoneJS Starting...');
 keystone.start(function(){

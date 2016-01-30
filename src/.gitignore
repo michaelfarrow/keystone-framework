@@ -3,7 +3,6 @@
 /public/js/vendor/
 /public/js/*.min.js
 /public/cache/
-/public/css
 /public/img/favicons
 /templates/includes
-/.cache-require-paths.json
+/bundle

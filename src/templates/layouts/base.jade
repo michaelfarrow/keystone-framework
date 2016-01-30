@@ -7,10 +7,11 @@ html
         meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
         
         title= site.brand
-        include ../includes/favicons.html
+        //- include ../includes/favicons.html
         
         block css
-          link(href="/css/main.css", rel="stylesheet")
+          if env == 'production'
+            link(href="/bundle/main.css", rel="stylesheet")
 
         block head
     body
@@ -28,7 +29,7 @@ html
               p Powered by <a href='http://keystonejs.com', target='_blank'>KeystoneJS</a>.
         
     block js
-      script(src='/js/app.min.js')
+      script(src='/bundle/main.js')
 
     block analytics
       if env == 'production' && process.env.GOOGLE_ANALYTICS_ID
