@@ -11,19 +11,14 @@ if [[ "$1" != "" ]];
 	build_env="$1"
 fi
 
-npm_args=""
-
-if [[ "$build_env" != "local" ]]; then
-	npm_args="--silent"
-fi
-
-if [[ "$build_env" != "local" ]]; then
-	heading "Pulling Docker images"
-	docker-compose -f docker-compose-tools.yml pull >/dev/null
-fi
+heading "Pulling Docker images"
+docker-compose -f docker-compose-tools.yml pull >/dev/null
+docker-compose -f docker-compose-common.yml pull >/dev/null
 
 heading "Installing NPM dependencies"
-tools/npm install $npm_args
+tools/npm install
 
-heading "Gulping"
-tools/gulp
+if [[ "$build_env" == "production" ]]; then
+	heading "Bundling Webpack"
+	tools/webpack -p
+fi

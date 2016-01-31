@@ -1,0 +1,59 @@
+
+@import 'normalize.css';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: table;
+  font-weight: 100;
+  font-family: 'Lato';
+  background-color: mix(#34b6d9, #3464d9);
+  background: linear-gradient(160deg, #34b6d9, #3464d9);
+}
+
+.container {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.content {
+  text-align: center;
+  display: inline-block;
+  font-size: 75px;
+  color: white;
+  font-size: responsive 55px 95px;
+  font-range: 320px 500px;
+
+  @media (min-width: 500px) {
+    font-size: 95px;
+  }
+}
+
+.title, .subtitle {
+  margin: 0 20px;
+}
+
+.subtitle {
+  font-size: 0.8em;
+
+  span {
+    padding: 0 10px;
+    border-right: 2px solid white;
+    animation: 1.2s blink step-end infinite;
+  }
+}
+
+@keyframes blink {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
+  }
+}

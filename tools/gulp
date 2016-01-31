@@ -1,3 +1,0 @@
-#!/bin/bash
-
-tools/node node_modules/gulp/bin/gulp.js "$@"

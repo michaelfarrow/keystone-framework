@@ -10,7 +10,6 @@ web:
     service: web
   volumes:
   - ./src:/src
-  command: index.js
   links:
   - db
   ports:

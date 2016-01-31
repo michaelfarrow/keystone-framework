@@ -1,4 +1,14 @@
 
+process.on('SIGINT', function(){
+  console.log('got SIGINT, exiting');
+  process.exit();
+});
+
+process.on('SIGTERM', function(){
+  console.log('got SIGTERM, exiting');
+  process.exit();
+});
+
 console.log('Starting');
 var startTime = new Date().getTime();
 
@@ -56,15 +66,14 @@ keystone.set('locals', {
 if(process.env.NODE_ENV != 'production'){
   var webpack = require('webpack');
   var config = require('./webpack.config');
-  config.watch = true;
   var compiler = webpack(config);
   var chokidar = require('chokidar');
 
   keystone.set('pre:routes', function(app){
+
     app.use(require("webpack-dev-middleware")(compiler, {
       noInfo: false,
       publicPath: config.output.publicPath,
-      lazy: false,
       reload: true,
       watchOptions: {
         poll: true,
@@ -74,7 +83,9 @@ if(process.env.NODE_ENV != 'production'){
         colors: true,
       },
     }));
+
     app.use(require("webpack-hot-middleware")(compiler));
+
   });
 
   // Do "hot-reloading" of react stuff on the server

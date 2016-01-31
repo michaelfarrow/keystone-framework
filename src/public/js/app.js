@@ -1,4 +1,4 @@
 
-require('app.scss')
+require('app.pcss')
 
 console.log('hello there');
