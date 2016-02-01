@@ -41,7 +41,12 @@ var config = {
       cachebuster: true,
       loadPaths: ['img/'],
     }),
+    require('postcss-color-mix'),
+    require('postcss-color-function'),
     require('postcss-responsive-type'),
+    require('postcss-responsive-images'),
+    require('postcss-media-minmax'),
+    require('lost'),
     require('autoprefixer')({
       browsers: ['last 2 versions', '> 5%', 'ie >= 8', 'Firefox > 2', 'Opera > 5']
     }),
