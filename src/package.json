@@ -27,8 +27,7 @@
     "postcss-responsive-type": "0.3.2",
     "postcss-font-magician": "1.4.0",
     "normalize.css": "3.0.3",
-    "jshint": "2.9.1",
-    "cache-require-paths": "0.1.2"
+    "jshint": "2.9.1"
   },
   "dependencies": {
     "keystone": "https://github.com/keystonejs/keystone.git",
