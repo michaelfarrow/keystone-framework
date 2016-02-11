@@ -22,7 +22,7 @@ exports = module.exports = function(req, res, next) {
   locals.csrf_query = '&' + keystone.security.csrf.TOKEN_KEY + '=' + keystone.security.csrf.getToken(req, res);
 
   locals.cached = function(url) {
-    return cache.sync(url, '/src/public/cache', '/cache');
+    return cache.async(url, '/src/public/cache', '/cache', function(){});
   };
 
   next();
