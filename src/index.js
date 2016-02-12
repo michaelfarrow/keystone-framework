@@ -64,27 +64,27 @@ keystone.set('locals', {
 });
 
 if(process.env.NODE_ENV != 'production'){
-  var webpack = require('webpack');
-  var config = require('./webpack.config');
-  var compiler = webpack(config);
+  // var webpack = require('webpack');
+  // var config = require('./webpack.config');
+  // var compiler = webpack(config);
   var chokidar = require('chokidar');
 
   keystone.set('pre:routes', function(app){
 
-    app.use(require("webpack-dev-middleware")(compiler, {
-      noInfo: false,
-      publicPath: config.output.publicPath,
-      reload: true,
-      watchOptions: {
-        poll: true,
-        aggregateTimeout: 300,
-      },
-      stats: {
-        colors: true,
-      },
-    }));
+    // app.use(require("webpack-dev-middleware")(compiler, {
+    //   noInfo: false,
+    //   publicPath: config.output.publicPath,
+    //   reload: true,
+    //   watchOptions: {
+    //     poll: true,
+    //     aggregateTimeout: 300,
+    //   },
+    //   stats: {
+    //     colors: true,
+    //   },
+    // }));
 
-    app.use(require("webpack-hot-middleware")(compiler));
+    // app.use(require("webpack-hot-middleware")(compiler));
 
   });
 

@@ -2,7 +2,7 @@
 db:
   image: mongo:3.2.0
 
-web:
+node:
   image: node:5.5.0
   working_dir: /src
   entrypoint: node

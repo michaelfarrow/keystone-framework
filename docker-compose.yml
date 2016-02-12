@@ -7,11 +7,22 @@ db:
 web:
   extends:
     file: docker-compose-common.yml
-    service: web
+    service: node
   volumes:
   - ./src:/src
   links:
   - db
   ports:
-  - '80:3000'
   - '35729:35729'
+
+dev:
+  extends:
+    file: docker-compose-common.yml
+    service: node
+  command: node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline
+  volumes:
+  - ./src:/src
+  links:
+  - web
+  ports:
+  - '80:80'

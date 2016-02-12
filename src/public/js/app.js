@@ -1,4 +1,4 @@
 
-require('app.pcss')
+require('app.pcss');
 
-console.log('hello there');
+console.log('hello!');

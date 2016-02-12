@@ -11,7 +11,8 @@ html
         
         block css
           if env == 'production'
-            link(href="/bundle/main.css", rel="stylesheet")
+            link(href="/bundle/common.css", rel="stylesheet")
+            link(href="/bundle/app.css", rel="stylesheet")
 
         block head
     body
@@ -24,7 +25,8 @@ html
         block footer
         
     block js
-      script(src='/bundle/main.js')
+      script(src='/bundle/common.js')
+      script(src='/bundle/app.js')
 
     block analytics
       if env == 'production' && process.env.GOOGLE_ANALYTICS_ID

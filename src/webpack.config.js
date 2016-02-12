@@ -7,9 +7,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var isProduction = process.argv.indexOf('-p') >= 0;
 
 var config = {
-  entry: [
-    '/src/public/js/app.js',
-  ],
+  entry: {
+    app: './public/js/app.js',
+  },
   output: {
     path: __dirname + '/public/bundle',
     filename: '[name].js',
@@ -28,7 +28,10 @@ var config = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: '[name].js',
+    }),
     new webpack.NoErrorsPlugin(),
   ],
   postcss: [
@@ -72,6 +75,17 @@ var config = {
       // },
     }),
   ],
+  watchOptions: {
+    poll: 300,
+  },
+  devServer: {
+    proxy: {
+      '*': {
+        target: 'http://web:3000',
+        secure: false,
+      },
+    },
+  },
 };
 
 if(isProduction) {
@@ -90,10 +104,8 @@ if(isProduction) {
 
   config.devtool = 'source-map';
 
-  config.entry.unshift('webpack-hot-middleware/client?reload=true');
-
   config.module.loaders = _.union(config.module.loaders, [
-    { test: /\.(p)?css$/, loader: 'style!css!postcss?sourceMap' },
+    { test: /\.(p)?css$/, loader: 'style!css!postcss' },
   ]);
 
 }
