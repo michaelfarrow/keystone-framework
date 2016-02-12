@@ -2,7 +2,7 @@
 npm:
   extends:
     file: docker-compose-common.yml
-    service: web
+    service: node
   volumes:
   - ./src:/src
   - ~/.npm:/root/.npm
