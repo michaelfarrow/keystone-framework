@@ -8,7 +8,7 @@ User.add({
   name: { type: Types.Name, required: true, index: true },
   email: { type: Types.Email, initial: true, required: true, index: true },
   password: { type: Types.Password, initial: true, required: false },
-  profileImage: { type: Types.CloudinaryImage, autoCleanup: true }
+  profileImage: { type: Types.CloudinaryImage, autoCleanup: true },
 }, 'Permissions', {
   canAccessKeystone: { type: Boolean, initial: true, default: false },
 });
@@ -18,7 +18,7 @@ User.schema.methods.wasActive = function () {
   return this;
 };
 
-User.schema.pre('save', function(next, done) {
+User.schema.pre('save', function(next) {
   if(this._id && this._req_user && this._id.equals(this._req_user._id)){
     this.set('canAccessKeystone', true);
   }

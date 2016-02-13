@@ -1,4 +1,8 @@
 
 require('app.pcss');
 
-console.log('hello!');
+var test = [
+  'test',
+  'test2'
+];
+document.body.write(test);

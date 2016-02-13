@@ -3,7 +3,7 @@ process.on('SIGINT', function(){
   console.log('got SIGINT, exiting');
   process.exit();
 });
-
+  
 process.on('SIGTERM', function(){
   console.log('got SIGTERM, exiting');
   process.exit();
@@ -64,7 +64,10 @@ if(process.env.NODE_ENV != 'production'){
   var chokidar = require('chokidar');
   var browserSync = require("browser-sync");
 
-  browserSync.init({});
+  console.log('Starting browserSync');
+  browserSync.init({
+    logLevel: 'silent',
+  });
 
   var watcher = chokidar.watch([
     './routes',

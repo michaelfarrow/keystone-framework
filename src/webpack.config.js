@@ -25,6 +25,13 @@ var config = {
     loaders: [
       { test: /.(woff(2)?|eot|ttf|svg|otf)(\?[a-z0-9=\.]+)?$/, loader: 'file?name=fonts/[name].[ext]' },
     ],
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['eslint'],
+        exclude: /node_modules/,
+      },
+    ],
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
