@@ -3,6 +3,7 @@ var _                 = require('lodash');
 var webpack           = require('webpack');
 var path              = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ManifestPlugin    = require('webpack-manifest-plugin');
 
 var isProduction = process.argv.indexOf('-p') >= 0;
 
@@ -12,7 +13,7 @@ var config = {
   },
   output: {
     path: __dirname + '/public/bundle',
-    filename: '[name].js',
+    filename: isProduction ? '[name]_[hash].js' : '[name].js',
     publicPath: '/bundle/',
   },
   resolve: {
@@ -37,7 +38,7 @@ var config = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      filename: '[name].js',
+      filename: isProduction ? '[name]_[hash].js' : '[name].js',
     }),
     new webpack.NoErrorsPlugin(),
   ],
@@ -103,7 +104,10 @@ if(isProduction) {
   ]);
 
   config.plugins = _.union(config.plugins, [
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('[name]_[hash].css'),
+    new ManifestPlugin({
+      basePath: '/bundle/',
+    }),
   ]);
 
 } else {

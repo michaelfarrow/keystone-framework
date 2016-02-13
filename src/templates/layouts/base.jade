@@ -3,15 +3,15 @@
 doctype html
 html
     head
-        meta(charset="utf-8")
-        meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+        meta(charset='utf-8')
+        meta(name='viewport', content='initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width')
         
         title= site.brand
         
         block css
           if env == 'production'
-            link(href="/bundle/common.css", rel="stylesheet")
-            link(href="/bundle/app.css", rel="stylesheet")
+            link(href=bundle('common.css'), rel='stylesheet')
+            link(href=bundle('app.css'), rel='stylesheet')
 
         block head
     body
@@ -23,11 +23,11 @@ html
         block footer
         
     block js
-      script(src='/bundle/common.js')
-      script(src='/bundle/app.js')
+      script(src=bundle('common.js'))
+      script(src=bundle('app.js'))
       if env != 'production'
         script(type='text/javascript', id='__bs_script__').
-          document.write("<script async src='http://" + location.hostname + ":3000/browser-sync/browser-sync-client.#{ browserSyncVersion }.js'><\/script>");
+          document.write('<script async src="http://' + location.hostname + ':3000/browser-sync/browser-sync-client.#{ browserSyncVersion }.js"><\/script>');
 
     block analytics
       if env == 'production' && process.env.GOOGLE_ANALYTICS_ID

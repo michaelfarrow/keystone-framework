@@ -30,5 +30,12 @@ exports = module.exports = function(req, res, next) {
     return cache.async(url, '/src/public/cache', '/cache', function(){});
   };
 
+  var manifest = locals.env == 'production' ? require('../../public/bundle/manifest.json') : null;
+
+  locals.bundle = function(path) {
+    path = '/bundle/' + path;
+    return manifest && manifest[path] ? manifest[path] : path;
+  };
+
   next();
 };
