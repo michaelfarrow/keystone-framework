@@ -64,45 +64,14 @@ keystone.set('locals', {
 });
 
 if(process.env.NODE_ENV != 'production'){
-  // var webpack = require('webpack');
-  // var config = require('./webpack.config');
-  // var compiler = webpack(config);
   var chokidar = require('chokidar');
-
-  keystone.set('pre:routes', function(app){
-
-    // app.use(require("webpack-dev-middleware")(compiler, {
-    //   noInfo: false,
-    //   publicPath: config.output.publicPath,
-    //   reload: true,
-    //   watchOptions: {
-    //     poll: true,
-    //     aggregateTimeout: 300,
-    //   },
-    //   stats: {
-    //     colors: true,
-    //   },
-    // }));
-
-    // app.use(require("webpack-hot-middleware")(compiler));
-
-  });
-
-  // Do "hot-reloading" of react stuff on the server
-  // Throw away the cached client modules and let them be re-required next time
-  // compiler.plugin('done', function() {
-  //   console.log("Clearing /client/ module cache from server");
-  //   // Object.keys(require.cache).forEach(function(id) {
-  //   //   if (/\/client\//.test(id)) delete require.cache[id];
-  //   // });
-  // });
 
   var watcher = chokidar.watch([
     './routes',
     './models',
   ], {
     usePolling: true,
-    interval: 100,
+    interval: 300,
   });
 
   watcher.on('ready', function() {
