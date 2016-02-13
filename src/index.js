@@ -21,6 +21,8 @@ keystone.init({
   'name': process.env.SITE_NAME || 'Keystone',
   'brand': process.env.SITE_BRAND || process.env.SITE_NAME || 'Keystone',
 
+  'port': 80,
+
   'favicon': 'public/img/favicons/favicon.ico',
   'static': 'public',
 
@@ -57,14 +59,12 @@ keystone.init({
 console.log('KeystoneJS Config');
 keystone.import('models');
 keystone.set('routes', require('./routes'));
-keystone.set('locals', {
-  brand_name: keystone.get('brand'),
-  env: keystone.get('env'),
-  utils: keystone.utils
-});
 
 if(process.env.NODE_ENV != 'production'){
   var chokidar = require('chokidar');
+  var browserSync = require("browser-sync");
+
+  browserSync.init({});
 
   var watcher = chokidar.watch([
     './routes',
@@ -75,7 +75,7 @@ if(process.env.NODE_ENV != 'production'){
   });
 
   watcher.on('ready', function() {
-    watcher.on('all', function() {
+    watcher.on('all', function(event, path) {
       Object.keys(require.cache).forEach(function(id) {
         if (/\/src\/routes\//.test(id))
           delete require.cache[id];
@@ -91,7 +91,24 @@ if(process.env.NODE_ENV != 'production'){
           keystone.mongoose.modelSchemas = {};
           keystone.import('./models');
         }
+
       });
+
+      browserSync.reload(path);
+
+    });
+  });
+
+  var templateWatcher = chokidar.watch([
+    './templates',
+  ], {
+    usePolling: true,
+    interval: 300,
+  });
+
+  templateWatcher.on('ready', function() {
+    templateWatcher.on('all', function(event, path) {
+      browserSync.reload(path);
     });
   });
 }

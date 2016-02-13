@@ -5,6 +5,7 @@
   "description": "Docker based Keystone framework",
   "author": "Mike Farrow <contact@mikefarrow.co.uk>",
   "devDependencies": {
+    "browser-sync": "2.11.1",
     "webpack": "1.12.12",
     "chokidar": "1.4.2",
     "webpack-dev-server": "1.14.1",

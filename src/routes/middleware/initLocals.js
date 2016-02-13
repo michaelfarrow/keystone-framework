@@ -10,16 +10,21 @@ exports = module.exports = function(req, res, next) {
 
   var locals = res.locals;
 
+  locals.env = keystone.get('env');
   locals.keystone = keystone;
+  locals.utils = keystone.utils;
+  locals.browserSyncVersion = require( '../../package.json').devDependencies['browser-sync'];
   locals.user = req.user;
   locals.site = {
     name: keystone.get('name'),
     brand: keystone.get('brand'),
   };
-  locals.csrf_header_key = keystone.security.csrf.CSRF_HEADER_KEY;
-  locals.csrf_token_key = keystone.security.csrf.TOKEN_KEY;
-  locals.csrf_token_value = keystone.security.csrf.getToken(req, res);
-  locals.csrf_query = '&' + keystone.security.csrf.TOKEN_KEY + '=' + keystone.security.csrf.getToken(req, res);
+  locals.csrf = {
+    headerKey: keystone.security.csrf.CSRF_HEADER_KEY,
+    tokenKey: keystone.security.csrf.TOKEN_KEY,
+    tokenValue: keystone.security.csrf.getToken(req, res),
+    query: '&' + keystone.security.csrf.TOKEN_KEY + '=' + keystone.security.csrf.getToken(req, res),
+  };
 
   locals.cached = function(url) {
     return cache.async(url, '/src/public/cache', '/cache', function(){});

@@ -12,6 +12,9 @@ web:
   - ./src:/src
   links:
   - db
+  ports:
+  - '3000:3000'
+  - '3001:3001'
 
 dev:
   extends:

@@ -81,7 +81,7 @@ var config = {
   devServer: {
     proxy: {
       '*': {
-        target: 'http://web:3000',
+        target: 'http://web:80',
         secure: false,
       },
     },
