@@ -23,9 +23,7 @@ var config = {
     ],
   },
   module: {
-    loaders: [
-      { test: /.(woff(2)?|eot|ttf|svg|otf)(\?[a-z0-9=\.]+)?$/, loader: 'file?name=fonts/[name].[ext]' },
-    ],
+    loaders: [],
     preLoaders: [
       {
         test: /\.jsx?$/,
@@ -49,7 +47,6 @@ var config = {
     require('precss'),
     require('postcss-assets')({
       basePath: 'public/',
-      cachebuster: true,
       loadPaths: ['img/'],
     }),
     require('postcss-color-mix'),
@@ -82,6 +79,10 @@ var config = {
       //   },
       // },
     }),
+    require('postcss-cachebuster')({
+      imagesPath: '/public',
+      cssPath: '/public/css',
+    }),
   ],
   watchOptions: {
     poll: 300,
@@ -100,7 +101,7 @@ if(isProduction) {
   console.log('Building for production');
 
   config.module.loaders = _.union(config.module.loaders, [
-    { test: /\.(p)?css$/, loader: ExtractTextPlugin.extract('style', 'css!postcss') },
+    { test: /\.(p)?css$/, loader: ExtractTextPlugin.extract('style', 'css?-url!postcss') },
   ]);
 
   config.plugins = _.union(config.plugins, [
@@ -116,7 +117,7 @@ if(isProduction) {
   config.devtool = 'source-map';
 
   config.module.loaders = _.union(config.module.loaders, [
-    { test: /\.(p)?css$/, loader: 'style!css!postcss' },
+    { test: /\.(p)?css$/, loader: 'style!css?-url!postcss' },
   ]);
 
 }

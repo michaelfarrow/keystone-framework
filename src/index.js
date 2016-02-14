@@ -1,9 +1,11 @@
 
+/* eslint-disable no-console */
+
 process.on('SIGINT', function(){
   console.log('got SIGINT, exiting');
   process.exit();
 });
-  
+
 process.on('SIGTERM', function(){
   console.log('got SIGTERM, exiting');
   process.exit();
@@ -33,7 +35,9 @@ keystone.init({
 
   'session store': 'mongo',
   'session options': {
-    'cookie': { 'maxAge': 31104000  }
+    'cookie': {
+      'maxAge': 31104000,
+    },
   },
 
   'signin redirect': function(user, req, res){
@@ -62,7 +66,7 @@ keystone.set('routes', require('./routes'));
 
 if(process.env.NODE_ENV != 'production'){
   var chokidar = require('chokidar');
-  var browserSync = require("browser-sync");
+  var browserSync = require('browser-sync');
 
   console.log('Starting browserSync');
   browserSync.init({
@@ -119,6 +123,8 @@ if(process.env.NODE_ENV != 'production'){
 console.log('KeystoneJS Starting...');
 keystone.start(function(){
   var endTime = new Date().getTime();
-  console.log('Loaded in', ((endTime - startTime) / 1000) + "s");
+  console.log('Loaded in', ((endTime - startTime) / 1000) + 's');
   if(process.send) process.send('loaded');
 });
+
+/* eslint-enable no-console */
