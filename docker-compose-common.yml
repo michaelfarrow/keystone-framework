@@ -8,7 +8,7 @@ node:
   entrypoint: node
   command: index.js
   environment:
-    NODE_ENV: local
+    NODE_ENV: development
     SITE_NAME: Keystone
     ADMIN_FIRST_NAME: John
     ADMIN_LAST_NAME: Doe
