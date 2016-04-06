@@ -90,7 +90,7 @@ var config = {
   devServer: {
     proxy: {
       '*': {
-        target: 'http://web:80',
+        target: 'http://localhost:' + (process.env.PORT || 8080),
         secure: false,
       },
     },

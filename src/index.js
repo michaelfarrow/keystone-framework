@@ -23,7 +23,9 @@ keystone.init({
   'name': process.env.SITE_NAME || 'Keystone',
   'brand': process.env.SITE_BRAND || process.env.SITE_NAME || 'Keystone',
 
-  'port': 80,
+  'port': process.env.PORT || 8080,
+
+  'cloudinary config': process.env.CLOUDINARY_URL,
 
   'favicon': 'public/img/favicons/favicon.ico',
   'static': 'public',
@@ -31,7 +33,10 @@ keystone.init({
   'views': 'templates/views',
   'view engine': 'jade',
 
-  'mongo': 'mongodb://db/project',
+  'mongo': 'mongodb://'
+    + process.env.MONGO_PORT_27017_TCP_ADDR
+    + ':' + process.env.MONGO_PORT_27017_TCP_PORT
+    + '/project',
 
   'session store': 'mongo',
   'session options': {
