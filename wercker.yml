@@ -3,7 +3,6 @@ box: node:5.10.0
 services:
   - id: mongo
     tag: 3.2.4
-    volumes: $CODE_PATH
 
 dev:
   steps:
