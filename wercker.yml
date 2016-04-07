@@ -21,3 +21,9 @@ build:
     - script:
         name: run webpack
         code: npm run webpack -- -p
+  after-steps:
+    - install-packages:
+        packages: ruby
+    - wantedly/pretty-slack-notify:
+        webhook_url: $SLACK_WEBHOOK_URL
+        username: $SLACK_USERNAME
