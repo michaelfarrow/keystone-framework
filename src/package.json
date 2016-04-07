@@ -43,6 +43,9 @@
     "local-url-cache": "1.2.1"
   },
   "scripts": {
-    "lint" : "node_modules/.bin/eslint index.js **/*.js"
+    "lint" : "node_modules/.bin/eslint index.js **/*.js",
+    "dev"  : "node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
+    "watch": "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
+    "test" : "npm run lint"
   }
 }

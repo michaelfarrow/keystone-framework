@@ -9,9 +9,10 @@ dev:
     - npm-install
     - internal/shell:
         code: |
-          node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline & \
-          node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js &
+          npm run dev & \
+          npm run watch &
 
 build:
   steps:
     - npm-install
+    - npm-test
