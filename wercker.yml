@@ -1,4 +1,6 @@
-box: node:5.10.0
+box:
+  id: node
+  tag: 5.10.0
 
 services:
   - id: mongo
@@ -9,7 +11,7 @@ dev:
     - npm-install
     - internal/shell:
         code: |
-          npm run dev & \
+          npm run dev &
           npm run watch &
 
 build:
