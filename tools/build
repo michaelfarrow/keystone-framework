@@ -1,24 +1,4 @@
 #!/bin/bash
 
-source tools/_functions
-
 set -e
-
-build_env="local"
-
-if [[ "$1" != "" ]];
-	then
-	build_env="$1"
-fi
-
-heading "Pulling Docker images"
-docker-compose -f docker-compose-tools.yml pull >/dev/null
-docker-compose -f docker-compose-common.yml pull >/dev/null
-
-heading "Installing NPM dependencies"
-tools/npm install
-
-if [[ "$build_env" == "production" ]]; then
-	heading "Bundling Webpack"
-	tools/webpack -p
-fi
+wercker build --direct-mount --enable-volumes --source-dir src "$@"

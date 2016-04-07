@@ -1,10 +1,12 @@
 ## Keystone.js Framework
 
-Docker based Keystone.js framework
+[![wercker status](https://app.wercker.com/status/0c561dfe9bee08d97f6185dd8b9a9e8d/s "wercker status")](https://app.wercker.com/project/bykey/0c561dfe9bee08d97f6185dd8b9a9e8d)
+
+Docker/Wercker based Keystone.js framework
 
 ### Prerequisites
 
-You must have Docker and Docker Compose installed before beginning.
+You must have Docker and Wercker Cli installed before beginning.
 
 ### Getting Started
 
@@ -12,19 +14,10 @@ You must have Docker and Docker Compose installed before beginning.
 * cd into the root of the repo and run:
 
 ```bash
-tools/build
-tools/start
+tools/dev
 ```
 
-The application should now be running on port 80. If you're using boot2docker, run `boot2docker ip` to get the ip address of the virtual machine.
-
-### Tools
-
-Node, NPM and Gulp have a proxy script located in `./tools`, which will run the correct docker-compose commands. For example, to update NPM dependencies, use:
-
-```bash
-tools/npm update
-```
+The application should now be running on port 80. You should be attached to the running container to run adhoc commands. If you're using docker-machine, run `docker-machine ip default` to get the ip address of the virtual machine.
 
 ### Development Credentials
 
