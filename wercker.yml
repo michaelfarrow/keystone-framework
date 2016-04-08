@@ -24,6 +24,34 @@ build:
   after-steps:
     - install-packages:
         packages: ruby
-    - wantedly/pretty-slack-notify:
-        webhook_url: $SLACK_WEBHOOK_URL
-        username: $SLACK_USERNAME
+    # - wantedly/pretty-slack-notify:
+    #     webhook_url: $SLACK_WEBHOOK_URL
+    #     username: $SLACK_USERNAME
+
+deploy:
+  steps:
+    - script:
+      name: debug
+      code: env
+    - script:
+        name: install gcloud
+        code: |
+          curl https://sdk.cloud.google.com | bash
+          source ~/.bashrc
+    - script:
+        name: install jq
+        code: |
+          wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5rc1/jq-linux-x86_64-static
+          chmod a+x /usr/local/bin/jq
+    - script:
+        name: gcr.io authentication
+        code: |
+          gcloud auth activate-refresh-token $GCLOUD_ACCOUNT $GCLOUD_REFRESH_TOKEN
+          gcloud docker --authorize-only
+          export GCR_AUTH_TOKEN=$(cat $HOME/.dockercfg | jq --raw-output '.["https://gcr.io"].auth' | base64 --decode | cut -d ':' -f2)
+    - internal/docker-push:
+        username: _token
+        password: $GCR_AUTH_TOKEN
+        repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
+        tag: $WERCKER_DEPLOY_ID
+        registry: https://gcr.io
