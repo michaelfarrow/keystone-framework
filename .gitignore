@@ -2,3 +2,12 @@
 /_cache
 /_steps
 /_projects
+
+/src/node_modules/
+/src/npm-debug.log
+/src/public/js/vendor/
+/src/public/js/*.min.js
+/src/public/cache/
+/src/public/img/favicons
+/src/templates/includes
+/src/public/bundle

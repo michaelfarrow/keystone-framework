@@ -30,25 +30,49 @@ build:
 
 deploy:
   steps:
+    # - script:
+    #     name: install gcloud
+    #     code: |
+    #       curl https://sdk.cloud.google.com | bash
+    #       source ~/.bashrc
+    # - script:
+    #     name: install jq
+    #     code: |
+    #       wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5rc1/jq-linux-x86_64-static
+    #       chmod a+x /usr/local/bin/jq
+    # - script:
+    #     name: gcr.io authentication
+    #     code: |
+    #       gcloud auth activate-refresh-token $GCLOUD_ACCOUNT $GCLOUD_REFRESH_TOKEN
+    #       gcloud docker --authorize-only
+    #       export GCR_AUTH_TOKEN=$(cat $HOME/.dockercfg | jq --raw-output '.["https://gcr.io"].auth' | base64 --decode | cut -d ':' -f2)
+    # - internal/docker-push:
+    #     username: _token
+    #     password: $GCR_AUTH_TOKEN
+    #     repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
+    #     tag: $WERCKER_DEPLOY_ID
+    #     registry: https://gcr.io
+    - add-to-known_hosts:
+        hostname: $DOKKU_HOSTNAME
+    - add-ssh-key:
+        keyname: DOKKU_KEY
     - script:
-        name: install gcloud
-        code: |
-          curl https://sdk.cloud.google.com | bash
-          source ~/.bashrc
+        name: copy environment to file
+        code: env > ENVIRONMENT
     - script:
-        name: install jq
+        name: Initialize new repository
         code: |
-          wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5rc1/jq-linux-x86_64-static
-          chmod a+x /usr/local/bin/jq
+          rm -rf .git
+          git init
+          git config --global user.name "wercker"
+          git config --global user.email "pleasemailus@wercker.com"
+          git remote add dokku dokku@$DOKKU_HOSTNAME:keystone-framework
     - script:
-        name: gcr.io authentication
+        name: Add everything to the repository
         code: |
-          gcloud auth activate-refresh-token $GCLOUD_ACCOUNT $GCLOUD_REFRESH_TOKEN
-          gcloud docker --authorize-only
-          export GCR_AUTH_TOKEN=$(cat $HOME/.dockercfg | jq --raw-output '.["https://gcr.io"].auth' | base64 --decode | cut -d ':' -f2)
-    - internal/docker-push:
-        username: _token
-        password: $GCR_AUTH_TOKEN
-        repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
-        tag: $WERCKER_DEPLOY_ID
-        registry: https://gcr.io
+          git add .
+          git commit -m "Result of deploy $WERCKER_GIT_COMMIT"
+    - script:
+        name: Push to dokku
+        code: |
+          git push dokku master -f

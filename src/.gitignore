@@ -1,8 +1,0 @@
-/node_modules/
-/npm-debug.log
-/public/js/vendor/
-/public/js/*.min.js
-/public/cache/
-/public/img/favicons
-/templates/includes
-/public/bundle
