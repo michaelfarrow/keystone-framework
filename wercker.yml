@@ -31,9 +31,6 @@ build:
 deploy:
   steps:
     - script:
-      name: debug
-      code: env
-    - script:
         name: install gcloud
         code: |
           curl https://sdk.cloud.google.com | bash
