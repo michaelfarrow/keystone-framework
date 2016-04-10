@@ -23,7 +23,7 @@ build:
         code: npm run webpack -- -p
     - script:
         name: generate kubernetes controller file
-        code: node-controller.yml.sh
+        code: ./node-controller.yml.sh
   after-steps:
     - install-packages:
         packages: ruby
