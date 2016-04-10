@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: mongo
+  name: mongo
+spec:
+  selector:
+    name: mongo
+  containerPort: 27017

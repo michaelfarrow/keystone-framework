@@ -74,6 +74,13 @@ deploy:
         username: $GCE_USERNAME
         password: $GCE_PASSWORD
         insecure-skip-tls-verify: true
+        command: create -f mongo-service.yml
+
+    - kubectl:
+        server: $GCE_SERVER
+        username: $GCE_USERNAME
+        password: $GCE_PASSWORD
+        insecure-skip-tls-verify: true
         command: create -f node-controller.yml
 
     - kubectl:

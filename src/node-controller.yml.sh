@@ -23,4 +23,5 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+      restartPolicy: Always
 EOF
