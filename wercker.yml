@@ -46,6 +46,7 @@ build:
         repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
         tag: $WERCKER_GIT_COMMIT
         registry: https://gcr.io
+        cmd: node index.js
   after-steps:
     - install-packages:
         packages: ruby
