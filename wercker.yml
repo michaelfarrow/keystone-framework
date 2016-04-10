@@ -61,14 +61,12 @@ deploy:
         server: $GCE_SERVER
         username: $GCE_USERNAME
         password: $GCE_PASSWORD
-        insecure-skip-tls-verify: true
         command: create -f node-controller.yml
 
     - kubectl:
         server: $GCE_SERVER
         username: $GCE_USERNAME
         password: $GCE_PASSWORD
-        insecure-skip-tls-verify: true
         command: create -f node-service.json
 
   rolling-update:
@@ -76,7 +74,6 @@ deploy:
         server: $GCE_SERVER
         username: $GCE_USERNAME
         password: $GCE_PASSWORD
-        insecure-skip-tls-verify: true
         command: rolling-update node
         image: gcr.io/$GCR_PROJECT/$GCR_IMAGE:$WERCKER_GIT_COMMIT
 
