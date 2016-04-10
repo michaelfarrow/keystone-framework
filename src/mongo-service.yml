@@ -7,4 +7,5 @@ metadata:
 spec:
   selector:
     name: mongo
-  containerPort: 27017
+  ports:
+    port: 27017
