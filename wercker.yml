@@ -23,7 +23,7 @@ build:
         code: npm run webpack -- -p
     - script:
         name: generate kubernetes controller file
-        code: cat node.yaml | while read line; do echo $(eval echo "\"${line//\"/\\\"}\""); done > node-controller.yaml 
+        code: cat node.yaml | while read line; do echo $(eval echo "\"${line//\"/\\\"}\""); done > node-controller.yaml
   after-steps:
     - install-packages:
         packages: ruby
@@ -56,8 +56,7 @@ deploy:
         tag: $WERCKER_GIT_COMMIT
         registry: https://gcr.io
 
-    # Run this to create the rc and service
-    initialize:
+  initialize:
     - kubectl:
         server: $GCE_SERVER
         username: $GCE_USERNAME
@@ -72,8 +71,7 @@ deploy:
         insecure-skip-tls-verify: true
         command: create -f node-service.json
 
-    # Update the replica controller to $WERCKER_GIT_COMMIT
-    rolling-update:
+  rolling-update:
     - kubectl:
         server: $GCE_SERVER
         username: $GCE_USERNAME
