@@ -23,7 +23,7 @@ build:
         code: npm run webpack -- -p
     - script:
         name: generate kubernetes controller file
-        code: cat node.yml | while read line; do echo $(eval echo "\"${line//\"/\\\"}\""); done > node-controller.yml
+        code: node-controller.yml.sh
   after-steps:
     - install-packages:
         packages: ruby

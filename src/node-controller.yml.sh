@@ -1,3 +1,6 @@
+#!/bin/bash
+
+cat > node-controller.yml <<EOF
 apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -20,3 +23,4 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+EOF
