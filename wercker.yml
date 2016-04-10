@@ -24,15 +24,6 @@ build:
     - script:
         name: generate kubernetes controller file
         code: ./node-controller.yml.sh
-  after-steps:
-    - install-packages:
-        packages: ruby
-    # - wantedly/pretty-slack-notify:
-    #     webhook_url: $SLACK_WEBHOOK_URL
-    #     username: $SLACK_USERNAME
-
-deploy:
-  steps:
     - script:
         name: install gcloud
         code: |
@@ -55,6 +46,14 @@ deploy:
         repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
         tag: $WERCKER_GIT_COMMIT
         registry: https://gcr.io
+  after-steps:
+    - install-packages:
+        packages: ruby
+    # - wantedly/pretty-slack-notify:
+    #     webhook_url: $SLACK_WEBHOOK_URL
+    #     username: $SLACK_USERNAME
+
+deploy:
 
   initialize:
     - script:
