@@ -57,6 +57,10 @@ deploy:
         registry: https://gcr.io
 
   initialize:
+    - script:
+        name: debug
+        code: cat node-controller.yml
+
     - kubectl:
         server: $GCE_SERVER
         username: $GCE_USERNAME
