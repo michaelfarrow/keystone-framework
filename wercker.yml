@@ -8,7 +8,9 @@ services:
 
 dev:
   steps:
-    - npm-install
+    - npm-install:
+        name: install node dependencies
+        options: --no-optional
     - internal/shell:
         code: |
           npm run dev &
@@ -16,8 +18,11 @@ dev:
 
 build:
   steps:
-    - npm-install
-    - npm-test
+    - npm-install:
+        name: install node dependencies
+        options: --no-optional
+    - npm-test:
+        name: run tests
     - script:
         name: run webpack
         code: npm run webpack -- -p
