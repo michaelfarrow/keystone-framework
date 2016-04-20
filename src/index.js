@@ -77,6 +77,7 @@ if(process.env.NODE_ENV != 'production'){
   console.log('Starting browserSync');
   browserSync.init({
     logLevel: 'silent',
+    proxy: 'localhost',
   });
 
   var watcher = chokidar.watch([

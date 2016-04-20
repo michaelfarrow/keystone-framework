@@ -3,6 +3,8 @@
 /_steps
 /_projects
 
+*.log
+
 /src/node_modules/
 /src/npm-debug.log
 /src/public/js/vendor/
