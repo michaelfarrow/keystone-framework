@@ -1,8 +1,6 @@
 
 /* eslint-disable no-console */
 
-console.log(process.env);
-
 process.on('SIGINT', function(){
   console.log('got SIGINT, exiting');
   process.exit();
