@@ -2,7 +2,7 @@
 
 [![wercker status](https://app.wercker.com/status/0c561dfe9bee08d97f6185dd8b9a9e8d/s "wercker status")](https://app.wercker.com/project/bykey/0c561dfe9bee08d97f6185dd8b9a9e8d)
 
-Docker/Wercker based Keystone.js framework
+Docker/Wercker based Keystone.js framework, using Dokku for deployment
 
 ### Prerequisites
 
@@ -25,3 +25,42 @@ Visit `/admin` to manage the site. Use the following credentials in development:
 
 **Email:** `johndoe@keystonejs.com`  
 **Password:** `changeme`
+
+### Wercker Project Setup
+
+1. Navigate to your project and open up `Settings > SSH Keys`
+2. Create a new SSH key
+3. Open up `Settings > Targets`
+4. Create a new target and give it a name *(production, staging etc.)*
+5. Create three environment variables:
+    - **DOKKU_KEY** - SSH Key - [key created in step 2]
+    - **DOKKU_HOST** - String - [your dokku host ip or fqdn]
+    - **DOKKU_APP** - String - keystone
+6. Save the target settings
+
+### Dokku Server Setup
+
+Once you've booted your Dokku server, on the installation screen, copy and paste the public SSH key from the Wercker Project target. Then run the following steps:
+
+```bash
+# Set some environment variables
+export MONGO_IMAGE_VERSION="3.2.4"
+
+# Install Mongo Dokku plugin
+dokku plugin:install https://github.com/dokku/dokku-mongo.git
+
+# Create our Keystone app
+dokku apps:create keystone
+
+# Create our Mongo service and link to our Keystone app
+dokku mongo:create keystone-db
+dokku mongo:link keystone-db keystone
+
+# Set our config values
+dokku config:set keystone COOKIE_SECRET="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c64)"
+dokku config:set keystone ADMIN_FIRST_NAME=["[first name]"]
+dokku config:set keystone ADMIN_LAST_NAME="[last name]"
+dokku config:set keystone ADMIN_EMAIL="[email]"
+dokku config:set keystone ADMIN_PASSWORD="[password]"
+dokku config:set keystone CLOUDINARY_URL="[url]"
+```

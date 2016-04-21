@@ -20,10 +20,10 @@ var keystone = require('keystone');
 console.log('KeystoneJS Init');
 keystone.init({
 
-  'name': process.env.SITE_NAME || 'Keystone',
-  'brand': process.env.SITE_BRAND || process.env.SITE_NAME || 'Keystone',
+  'name': 'Keystone',
+  'brand': 'Keystone',
 
-  'port': process.env.PORT || 8080,
+  'port': process.env.PORT || 80,
 
   'cloudinary config': process.env.CLOUDINARY_URL,
 

@@ -5,9 +5,12 @@ var keystone = require('keystone'),
 exports = module.exports = function(done) {
 
   new User.model({
-    name: { first: process.env.ADMIN_FIRST_NAME, last: process.env.ADMIN_LAST_NAME },
-    email: process.env.ADMIN_EMAIL,
-    password: process.env.ADMIN_PASSWORD,
+    name: {
+      first: process.env.ADMIN_FIRST_NAME || 'John',
+      last: process.env.ADMIN_LAST_NAME|| 'Doe',
+    },
+    email: process.env.ADMIN_EMAIL || 'johndoe@keystonejs.com',
+    password: process.env.ADMIN_PASSWORD || 'changeme',
     canAccessKeystone: true,
   }).save(done);
 
