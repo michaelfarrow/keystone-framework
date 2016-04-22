@@ -11,6 +11,8 @@ process.on('SIGTERM', function(){
   process.exit();
 });
 
+process.env.TMPDIR = '/tmp';
+
 console.log('Starting');
 var startTime = new Date().getTime();
 
