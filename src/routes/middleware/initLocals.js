@@ -1,6 +1,7 @@
 
 var keystone = require('keystone');
 var cache    = require('local-url-cache');
+var path     = require('path');
 
 /**
 Initialises the standard view locals.
@@ -27,7 +28,7 @@ exports = module.exports = function(req, res, next) {
   };
 
   locals.cached = function(url) {
-    return cache.async(url, '/src/public/cache', '/cache', function(){});
+    return cache.async(url, path.resolve(__dirname + '/../../public/cache'), '/cache', function(){});
   };
 
   var manifest = locals.env == 'production' ? require('../../public/bundle/manifest.json') : null;
