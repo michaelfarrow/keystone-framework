@@ -58,7 +58,7 @@ dokku mongo:link keystone-db keystone
 
 # Set our config values
 dokku config:set keystone COOKIE_SECRET="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c64)"
-dokku config:set keystone ADMIN_FIRST_NAME=["[first name]"]
+dokku config:set keystone ADMIN_FIRST_NAME="[first name]"
 dokku config:set keystone ADMIN_LAST_NAME="[last name]"
 dokku config:set keystone ADMIN_EMAIL="[email]"
 dokku config:set keystone ADMIN_PASSWORD="[password]"
