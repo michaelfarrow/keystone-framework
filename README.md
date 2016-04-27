@@ -1,8 +1,10 @@
-## Keystone.js Framework
+# Keystone.js Framework
 
 [![wercker status](https://app.wercker.com/status/0c561dfe9bee08d97f6185dd8b9a9e8d/s "wercker status")](https://app.wercker.com/project/bykey/0c561dfe9bee08d97f6185dd8b9a9e8d)
 
 Docker/Wercker based Keystone.js framework, using Dokku for deployment
+
+## Local Development
 
 ### Prerequisites
 
@@ -25,6 +27,10 @@ Visit `/admin` to manage the site. Use the following credentials in development:
 
 **Email:** `johndoe@keystonejs.com`  
 **Password:** `changeme`
+
+## Deployment
+
+The framework is setup to deploy to a Dokku instance using Wercker.
 
 ### Wercker Project Setup
 

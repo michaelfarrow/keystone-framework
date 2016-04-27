@@ -4,6 +4,7 @@
 /_projects
 
 *.log
+*.log.*
 
 /src/node_modules/
 /src/npm-debug.log

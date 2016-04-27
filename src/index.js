@@ -1,6 +1,8 @@
 
 /* eslint-disable no-console */
 
+var options = require('keystone-options');
+
 process.on('SIGINT', function(){
   console.log('got SIGINT, exiting');
   process.exit();
@@ -48,6 +50,12 @@ keystone.init({
     },
   },
 
+  'options': {
+    'Location': [
+      'Business Address',
+    ],
+  },
+
   'signin redirect': function(user, req, res){
     res.redirect(user.canAccessKeystone ? '/keystone': '/');
   },
@@ -67,6 +75,8 @@ keystone.init({
   'cookie secret': process.env.COOKIE_SECRET || 'development',
 
 });
+
+options.init(keystone);
 
 console.log('KeystoneJS Config');
 keystone.import('models');
