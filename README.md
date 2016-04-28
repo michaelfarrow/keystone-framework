@@ -28,6 +28,10 @@ Visit `/admin` to manage the site. Use the following credentials in development:
 **Email:** `johndoe@keystonejs.com`  
 **Password:** `changeme`
 
+### Environment
+
+Any environment variables which need to be supplied when developing locally can be placed in the `ENVIRONMENT` file, with variable names prefixed with `X_`. For any variables which you don't want adding to the repository can be added to the `ENVIRONMENT_LOCAL.template` file, without the `X_` prefix. If this template file is not empty, the application will not start without an `ENVIRONMENT_LOCAL` file being created.
+
 ## Deployment
 
 The framework is setup to deploy to a Dokku instance using Wercker.

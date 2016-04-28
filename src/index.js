@@ -29,7 +29,7 @@ keystone.init({
 
   'port': process.env.PORT || 80,
 
-  'cloudinary config': process.env.CLOUDINARY_URL,
+  'cloudinary config': process.env.CLOUDINARY_URL || 'cloudinary://XXXXX:XXXX@XXXXX',
 
   'favicon': 'public/img/favicons/favicon.ico',
   'static': 'public',

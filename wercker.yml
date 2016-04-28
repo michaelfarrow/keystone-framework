@@ -8,6 +8,11 @@ services:
 
 dev:
   steps:
+    - script:
+        name: check local environment
+        code: |
+          [[ -f ENVIRONMENT_LOCAL || "$(cat ENVIRONMENT_LOCAL.template | xargs)" == "" ]] || ( echo "No ENVIRONMENT_LOCAL present, please create one based on ENVIRONMENT_LOCAL.template" && exit 1 )
+        cwd: $WERCKER_ROOT
     - npm-install:
         name: install node dependencies
         options: --no-optional

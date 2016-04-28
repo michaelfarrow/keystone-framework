@@ -6,6 +6,8 @@
 *.log
 *.log.*
 
+/ENVIRONMENT_LOCAL
+
 /src/node_modules/
 /src/npm-debug.log
 /src/public/js/vendor/
