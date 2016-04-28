@@ -14,8 +14,8 @@ exports = module.exports = function(req, res, next) {
   locals.env = keystone.get('env');
   locals.keystone = keystone;
   locals.utils = keystone.utils;
-  locals.browserSyncVersion = require( '../../package.json').devDependencies['browser-sync'];
   locals.user = req.user;
+  locals.options = require('keystone-options');
   locals.site = {
     name: keystone.get('name'),
     brand: keystone.get('brand'),

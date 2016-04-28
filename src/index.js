@@ -82,6 +82,10 @@ console.log('KeystoneJS Config');
 keystone.import('models');
 keystone.set('routes', require('./routes'));
 
+keystone.set('nav', {
+  'site': ['options', 'users'],
+});
+
 if(process.env.NODE_ENV != 'production'){
   var chokidar = require('chokidar');
   var browserSync = require('browser-sync');
