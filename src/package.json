@@ -41,7 +41,7 @@
     "lodash": "4.2.0",
     "async": "1.5.2",
     "local-url-cache": "1.2.1",
-    "keystone-options": "0.1.0"
+    "keystone-options": "0.2.0"
   },
   "scripts": {
     "lint"   : "node_modules/.bin/eslint index.js **/*.js",
