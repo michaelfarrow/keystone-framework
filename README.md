@@ -81,4 +81,5 @@ dokku config:set keystone ADMIN_LAST_NAME="[last name]"
 dokku config:set keystone ADMIN_EMAIL="[email]"
 dokku config:set keystone ADMIN_PASSWORD="[password]"
 dokku config:set keystone CLOUDINARY_URL="[url]"
+dokku config:set keystone GOOGLE_ANALYTICS_ID="[ga_id]"
 ```
