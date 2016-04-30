@@ -112,7 +112,13 @@ if(process.env.NODE_ENV != 'production'){
 
         var refreshModels = false;
         if (/\/src\/models\//.test(id)){
-          delete require.cache[id];
+
+          for(cacheId in require.cache){
+            if (/\/src\/models\//.test(cacheId)){
+              delete require.cache[cacheId];
+            }
+          }
+
           refreshModels = true;
         }
 
