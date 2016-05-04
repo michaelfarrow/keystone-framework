@@ -36,7 +36,7 @@
     "jshint": "2.9.1"
   },
   "dependencies": {
-    "keystone": "0.3.17",
+    "keystone": "0.3.18",
     "connect-mongo": "1.1.0",
     "lodash": "4.2.0",
     "async": "1.5.2",

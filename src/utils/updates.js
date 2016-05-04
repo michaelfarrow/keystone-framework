@@ -16,6 +16,6 @@ updates.saveModels = function(list, data){
   return function(callback){
     list.model.create(data, callback);
   };
-}
+};
 
 exports = module.exports = updates;
