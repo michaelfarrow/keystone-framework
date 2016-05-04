@@ -2,7 +2,18 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
-var User = new keystone.List('User', {});
+/**
+LIST OPTIONS
+*/
+
+var User = new keystone.List('User', {
+  track: true,
+  defaultColumns: 'name, email',
+});
+
+/**
+COMMON FIELDS
+*/
 
 User.add({
   name: { type: Types.Name, required: true, index: true },
@@ -13,11 +24,11 @@ User.add({
   canAccessKeystone: { type: Boolean, initial: true, default: false },
 });
 
-User.schema.methods.wasActive = function () {
-  this.lastActiveOn = new Date();
-  return this;
-};
+/**
+VALIDATION FUNCTIONS
+*/
 
+// Prevent user from disabling their own keystone access
 User.schema.pre('save', function(next) {
   if(this._id && this._req_user && this._id.equals(this._req_user._id)){
     this.set('canAccessKeystone', true);
@@ -25,6 +36,9 @@ User.schema.pre('save', function(next) {
   next();
 });
 
-User.track = true;
-User.defaultColumns = 'name, email';
+/**
+REGISTER MODEL & EXPORT
+We export the model because we may need to extend it later
+*/
 User.register();
+exports = module.exports = User;
