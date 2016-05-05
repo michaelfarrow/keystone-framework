@@ -19,7 +19,7 @@ User.add({
   name: { type: Types.Name, required: true, index: true },
   email: { type: Types.Email, initial: true, required: true, index: true },
   password: { type: Types.Password, initial: true, required: false },
-  profileImage: { type: Types.CloudinaryImage, autoCleanup: true },
+  profileImage: { type: Types.CloudinaryImage, autoCleanup: true, folder: 'users', publicID: 'id' },
 }, 'Permissions', {
   canAccessKeystone: { type: Boolean, initial: true, default: false },
 });
