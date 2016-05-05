@@ -1,4 +1,4 @@
-FROM node:5.10.1
+FROM node:6.0.0
 
 COPY src /app
 COPY dokku/nginx.conf.sigil /app/nginx.conf.sigil

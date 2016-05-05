@@ -1,6 +1,6 @@
 box:
   id: node
-  tag: 5.10.1
+  tag: 6.0.0
 
 services:
   - id: mongo

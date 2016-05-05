@@ -32,6 +32,12 @@ Visit `/admin` to manage the site. Use the following credentials in development:
 
 Any environment variables which need to be supplied when developing locally can be placed in the `ENVIRONMENT` file, with variable names prefixed with `X_`. For any variables which you don't want adding to the repository can be added to the `ENVIRONMENT_LOCAL.template` file, without the `X_` prefix. If this template file is not empty, the application will not start without an `ENVIRONMENT_LOCAL` file being created.
 
+## Upgrading
+
+### Docker base images
+
+You should periodically update the node base image as new versions are released. To do so, update the node box in `wercker.yml` and the base image in `dokku/Dockerfile` for deployment.
+
 ## Deployment
 
 The framework is setup to deploy to a Dokku instance using Wercker.
