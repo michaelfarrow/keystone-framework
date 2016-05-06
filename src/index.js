@@ -18,12 +18,14 @@ require('./config/views');
 require('./config/assets');
 require('./config/images');
 require('./config/options');
+require('./config/templates');
 
 require('./config/models');
 require('./config/routes');
 
 // Load and initialise plugins.
 require('keystone-options').init(keystone);
+require('keystone-pages').init(keystone);
 
 // Load nav after all our models have been loaded.
 require('./config/nav');

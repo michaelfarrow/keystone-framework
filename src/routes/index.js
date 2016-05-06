@@ -17,12 +17,12 @@ keystone.set('500', function(err, req, res) {
   res.err(err, title, message);
 });
 
-exports = module.exports = function(app) {
+// load middleware
+keystone.pre('routes', function(req, res, next) {
+  require('./middleware')(req, res, next);
+});
 
-  // load middleware
-  app.use(function(req, res, next) {
-    require('./middleware')(req, res, next);
-  });
+exports = module.exports = function(app) {
 
   // load application routes
   app.use(function(req, res, next) {
