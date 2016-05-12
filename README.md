@@ -1,6 +1,6 @@
 # Keystone.js Framework
 
-[![wercker status](https://app.wercker.com/status/0c561dfe9bee08d97f6185dd8b9a9e8d/s "wercker status")](https://app.wercker.com/project/bykey/0c561dfe9bee08d97f6185dd8b9a9e8d)
+[![wercker status](https://app.wercker.com/status/9977caff1920c9d5b2f583f8c8091313/s "wercker status")](https://app.wercker.com/project/bykey/9977caff1920c9d5b2f583f8c8091313)
 
 Docker/Wercker based Keystone.js framework, using Dokku for deployment
 
