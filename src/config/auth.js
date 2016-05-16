@@ -8,6 +8,6 @@ keystone.set('signin redirect', function(user, req, res){
   res.redirect(user.canAccessKeystone ? '/keystone': '/');
 });
 
-keystone.set('signout redirect', function(user, req, res){
+keystone.set('signout redirect', function(req, res){
   res.redirect(res.locals.user && res.locals.user.canAccessKeystone ? '/keystone': '/');
 });
