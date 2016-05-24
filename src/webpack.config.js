@@ -33,6 +33,16 @@ var config = {
     ],
   },
   plugins: [
+    function(){
+      this.plugin('done', function(stats){
+        if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('-p') !== -1){
+          _.each(stats.compilation.errors, function(error){
+            console.log('\n' + error.message);
+          });
+          process.exit(1);
+        }
+      });
+    },
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
