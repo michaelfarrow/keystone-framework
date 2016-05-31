@@ -30,12 +30,11 @@ require('keystone-pages').init(keystone);
 // Load nav after all our models have been loaded.
 require('./config/nav');
 
-require('./utils/watch');
-
 // Finally, start Keystone
 keystone.start(function(){
   var endTime = new Date().getTime();
   console.log('Loaded in', ((endTime - startTime) / 1000) + 's');
+  require('./utils/watch');
 });
 
 /* eslint-enable no-console */
