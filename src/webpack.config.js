@@ -110,7 +110,6 @@ var config = {
 };
 
 if(isProduction) {
-  console.log('Building for production');
 
   config.module.loaders = _.union(config.module.loaders, [
     { test: /\.(p)?css$/, loader: ExtractTextPlugin.extract('style', 'css?-url!postcss') },
@@ -124,7 +123,6 @@ if(isProduction) {
   ]);
 
 } else {
-  console.log('Building for development');
 
   config.devtool = 'source-map';
 
