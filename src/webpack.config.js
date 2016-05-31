@@ -97,7 +97,7 @@ var config = {
     ];
   },
   watchOptions: {
-    poll: 300,
+    poll: 1000,
   },
   devServer: {
     proxy: {

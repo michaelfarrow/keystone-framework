@@ -15,7 +15,7 @@ if(process.env.NODE_ENV != 'production'){
     './models',
   ], {
     usePolling: true,
-    interval: 300,
+    interval: 1000,
   });
 
   watcher.on('ready', function() {
@@ -53,7 +53,7 @@ if(process.env.NODE_ENV != 'production'){
     './templates',
   ], {
     usePolling: true,
-    interval: 300,
+    interval: 1000,
   });
 
   templateWatcher.on('ready', function() {
