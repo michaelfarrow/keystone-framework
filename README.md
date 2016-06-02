@@ -13,13 +13,13 @@ You must have Docker and Wercker Cli installed before beginning.
 ### Getting Started
 
 * Clone this repo
-* cd into the root of the repo and run:
+* cd into the root of the repo and run `tools/dev`
 
-```bash
-tools/dev
-```
+The application should now be running on port 80. You will be attached to the running container and the log viewer will run.
 
-The application should now be running on port 80. You should be attached to the running container to run adhoc commands. If you're using docker-machine, run `docker-machine ip default` to get the ip address of the virtual machine.
+If you need to run adhoc commands, hit `ctrl+c` to exit the log viewer. You can return to the log viewer by simply running `log`
+
+To exit fully from the container, hit `ctrl+c` to exit the log viewer and then type `exit` to exit the container.
 
 ### Development Credentials
 

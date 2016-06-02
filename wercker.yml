@@ -16,12 +16,20 @@ dev:
     - npm-install:
         name: install node dependencies
         options: --no-optional
+    - script:
+        name: adding tools
+        code: cp "$WERCKER_ROOT/tools/log" /usr/bin/log
+    - script:
+        name: run
+        code: |
+          touch /var/log/keystone.log
+          npm run dev >> /var/log/keystone.log &
+          npm run watch >> /var/log/keystone.log &
     - internal/shell:
         code: |
-          stty columns 9999999
-          stty rows 1
-          npm run dev &
-          npm run watch &
+          stty columns $TERMINAL_COLUMNS
+          stty rows $TERMINAL_ROWS
+          log
 
 build:
   steps:
