@@ -18,6 +18,8 @@ dev:
         options: --no-optional
     - internal/shell:
         code: |
+          stty columns 9999999
+          stty rows 1
           npm run dev &
           npm run watch &
 
