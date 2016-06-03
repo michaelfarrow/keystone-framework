@@ -4,4 +4,4 @@ clear
 
 echo "Viewing application log, hit ctrl+c to end and return to the command line"
 
-tail -f /var/log/keystone.log
+tail -f -s 0.1 /var/log/keystone.log /var/log/webpack.log

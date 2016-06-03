@@ -23,7 +23,8 @@ dev:
         name: run
         code: |
           touch /var/log/keystone.log
-          npm run dev >> /var/log/keystone.log &
+          touch /var/log/webpack.log
+          npm run dev >> /var/log/webpack.log &
           npm run watch >> /var/log/keystone.log &
     - internal/shell:
         code: |
