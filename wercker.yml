@@ -24,8 +24,8 @@ dev:
         code: |
           touch /var/log/keystone.log
           touch /var/log/webpack.log
-          npm run dev >> /var/log/webpack.log &
-          npm run watch >> /var/log/keystone.log &
+          npm run dev >> /var/log/webpack.log 2>&1 &
+          npm run watch >> /var/log/keystone.log 2>&1 &
     - internal/shell:
         code: |
           stty columns $TERMINAL_COLUMNS
