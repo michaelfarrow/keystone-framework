@@ -80,6 +80,9 @@ mkdir -p /var/lib/dokku/data/keystone/uploads
 dokku storage:mount keystone /var/lib/dokku/data/keystone/cache:/app/public/cache
 dokku storage:mount keystone /var/lib/dokku/data/keystone/uploads:/app/public/uploads
 
+# Restart our application on failure
+dokku docker-options:add keystone deploy --restart=always
+
 # Set our config values
 dokku config:set keystone COOKIE_SECRET="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c64)"
 dokku config:set keystone ADMIN_FIRST_NAME="[first name]"
