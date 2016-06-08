@@ -2,7 +2,7 @@
 
 source tools/_colours
 
-MACHINE_IP="$(docker-machine ip default)"
+MACHINE_IP="$(docker-machine ip $DOCKER_MACHINE_NAME)"
 MACHINE_URL="http://$MACHINE_IP"
 
 echo ""
