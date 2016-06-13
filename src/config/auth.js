@@ -9,5 +9,7 @@ keystone.set('signin redirect', function(user, req, res){
 });
 
 keystone.set('signout redirect', function(req, res){
+  if(keystone.get('env') == 'development')
+    req.session.devSignedOut = true;
   res.redirect(res.locals.user && res.locals.user.canAccessKeystone ? '/keystone': '/');
 });
