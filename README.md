@@ -91,4 +91,8 @@ dokku config:set keystone ADMIN_EMAIL="[email]"
 dokku config:set keystone ADMIN_PASSWORD="[password]"
 dokku config:set keystone CLOUDINARY_URL="[url]"
 dokku config:set keystone GOOGLE_ANALYTICS_ID="[ga_id]"
+
+# Setup out domains
+dokku domains:add keystone example.com
+dokku domains:add keystone www.example.com
 ```
