@@ -95,4 +95,7 @@ dokku config:set keystone GOOGLE_ANALYTICS_ID="[ga_id]"
 # Setup out domains
 dokku domains:add keystone example.com
 dokku domains:add keystone www.example.com
+
+# Setup any ssl certificates from string, tarball or stdin
+dokku certs:add keystone certs.tar
 ```
