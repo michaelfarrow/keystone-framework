@@ -6,4 +6,4 @@ keystone.set('static', 'public');
 keystone.set('sass', false);
 keystone.set('less', false);
 
-keystone.set('favicon', 'public/img/favicons/favicon.ico');
+keystone.set('favicon', 'public/favicon.ico');
