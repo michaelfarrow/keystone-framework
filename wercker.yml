@@ -18,7 +18,10 @@ dev:
         options: --no-optional
     - script:
         name: adding tools
-        code: cp "$WERCKER_ROOT/tools/log" /usr/bin/log
+        code: |
+          ln -s "$WERCKER_ROOT/tools/log" /usr/bin/log
+          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/reload
+          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/restart
     - script:
         name: run
         code: |
