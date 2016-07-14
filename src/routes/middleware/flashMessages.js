@@ -6,6 +6,9 @@ Fetches and clears the flashMessages before a view is rendered
 */
 exports = module.exports = function(req, res, next) {
 
+	if(req.url.indexOf('/keystone') === 0)
+    return next();
+
   var flashMessages = {
     info: req.flash('info'),
     success: req.flash('success'),
