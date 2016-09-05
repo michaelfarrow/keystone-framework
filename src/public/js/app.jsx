@@ -4,18 +4,18 @@ require('app.pcss');
 import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyComponent from './MyComponent';
+import App from './components/app';
 
-const rootEl = document.querySelector('.subtitle');
+const rootEl = document.getElementById('root');
 ReactDOM.render(
-  <AppContainer><MyComponent/></AppContainer>,
+  <AppContainer><App/></AppContainer>,
   rootEl
 );
 
 if (module.hot) {
-  module.hot.accept('./MyComponent', () => {
+  module.hot.accept('./App', () => {
     ReactDOM.render(
-      <AppContainer component={require('./MyComponent').default} />,
+      <AppContainer component={require('./App').default} />,
       rootEl
     );
   });
