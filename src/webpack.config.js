@@ -8,9 +8,7 @@ var ManifestPlugin    = require('webpack-manifest-plugin');
 var isProduction = process.argv.indexOf('-p') >= 0;
 
 var config = {
-  entry: {
-    app: './public/js/app.js',
-  },
+  entry: [ './public/js/app.jsx' ],
   output: {
     path: __dirname + '/public/bundle',
     filename: isProduction ? '[name]_[hash].js' : '[name].js',
@@ -21,12 +19,19 @@ var config = {
       __dirname,
       path.resolve('public/css'),
     ],
+    extensions: ['', '.js', '.jsx'],
   },
   module: {
-    loaders: [],
+    loaders: [
+      {
+        test: /\.jsx?/,
+        loaders: ['babel?cacheDirectory=/tmp'],
+        exclude: /node_modules/,
+      }
+    ],
     preLoaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.js?$/, // TODO: support jsx
         loaders: ['eslint'],
         exclude: /node_modules/,
       },
@@ -44,10 +49,6 @@ var config = {
       });
     },
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: isProduction ? '[name]_[hash].js' : '[name].js',
-    }),
     new webpack.NoErrorsPlugin(),
   ],
   postcss: function (webpack) {
@@ -123,6 +124,11 @@ if(isProduction) {
   ]);
 
 } else {
+
+  config.entry[0] = config.entry[0] + '?reload=true';
+  config.entry.unshift('react-hot-loader/patch');
+
+  config.module.loaders[0].loaders.unshift('react-hot/webpack');
 
   config.devtool = 'source-map';
 
