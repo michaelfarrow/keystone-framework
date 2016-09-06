@@ -128,8 +128,6 @@ if(isProduction) {
   config.entry[0] = config.entry[0] + '?reload=true';
   config.entry.unshift('react-hot-loader/patch');
 
-  config.module.loaders[0].loaders.unshift('react-hot/webpack');
-
   config.devtool = 'source-map';
 
   config.module.loaders = _.union(config.module.loaders, [
