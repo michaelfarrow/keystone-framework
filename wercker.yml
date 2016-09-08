@@ -9,6 +9,8 @@ box:
 services:
   - id: mongo
     tag: 3.2.4
+    ports:
+     - '27107'
 
 dev:
   steps:
