@@ -130,6 +130,10 @@ if(isProduction) {
     { test: /\.(p)?css$/, loader: 'style!css?-url!postcss' },
   ]);
 
+  config.plugins = _.union(config.plugins, [
+    new webpack.WatchIgnorePlugin([path.join(__dirname, 'node_modules')]),
+  ]);
+
 }
 
 module.exports = config;
