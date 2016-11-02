@@ -38,6 +38,7 @@
   "dependencies": {
     "keystone": "4.0.0-beta.3",
     "connect-mongo": "1.1.0",
+    "debug": "2.2.0",
     "pug": "2.0.0-beta6",
     "lodash": "4.2.0",
     "async": "1.5.2",
