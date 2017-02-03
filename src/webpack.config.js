@@ -68,10 +68,10 @@ if(isProduction) {
   config.module.rules = _.union(config.module.rules, [
     {
       test: /\.(p)?css$/,
-      loader: ExtractTextPlugin.extract(
-        'style-loader',
-        'css-loader?-url!postcss-loader'
-      ),
+      loader: ExtractTextPlugin.extract({
+        fallbackLoader: 'style-loader',
+        loader: 'css-loader?-url!postcss-loader',
+      }),
     },
   ]);
 
