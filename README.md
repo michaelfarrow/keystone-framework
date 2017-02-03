@@ -44,15 +44,21 @@ The framework is setup to deploy to a Dokku instance using Wercker.
 
 ### Wercker Project Setup
 
-1. Navigate to your project and open up `Settings > SSH Keys`
-2. Create a new SSH key
-3. Open up `Settings > Targets`
-4. Create a new target and give it a name *(production, staging etc.)*
-5. Create three environment variables:
-    - **DOKKU_KEY** - SSH Key - [key created in step 2]
+1. Navigate to your project and open the `Workflows` tab
+2. Click `Add new pipeline`
+3. Fill in the form:
+    - **Name** - [staging/production]
+    - **YML Pipeline name** - deploy
+    - **Hook type** - default
+4. Click the `Create` button
+5. On the resulting page, create a new SSH key by clicking the `Generate SSH Keys` link below and to the right of the Pipeline environment variables section:
+    - **SSH key name** - DOKKU_KEY
+6. Create three environment variables:
     - **DOKKU_HOST** - String - [your dokku host ip or fqdn]
     - **DOKKU_APP** - String - keystone
-6. Save the target settings
+7. Go back to the `Workflows` tab
+8. click the `+ icon` next the the `build` workflow.
+9. Enter the branch you wish to deploy, select the pipeline you just created for the execute pipeline, and click `Add`
 
 ### Dokku Server Setup
 
