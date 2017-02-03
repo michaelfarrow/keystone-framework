@@ -60,7 +60,7 @@ Once you've booted your Dokku server, on the installation screen, copy and paste
 
 ```bash
 # Set some environment variables
-export MONGO_IMAGE_VERSION="3.2.4"
+export MONGO_IMAGE_VERSION="3.4.1"
 
 # Install Mongo Dokku plugin
 dokku plugin:install https://github.com/dokku/dokku-mongo.git

@@ -17,17 +17,17 @@ var config = {
     publicPath: '/bundle/',
   },
   resolve: {
-    root: [
+    modules: [
       __dirname,
-      path.resolve('public/css'),
+      'node_modules',
+      'public/css',
     ],
   },
   module: {
-    loaders: [],
-    preLoaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loaders: ['eslint'],
+        loaders: ['eslint-loader'],
         exclude: /node_modules/,
       },
     ],
@@ -43,59 +43,13 @@ var config = {
         }
       });
     },
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
       filename: isProduction ? '[name]_[hash].js' : '[name].js',
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
-  postcss: function (webpack) {
-    return [
-      require('postcss-import')({
-        addDependencyTo: webpack
-      }),
-      require('precss'),
-      require('postcss-assets')({
-        basePath: 'public/',
-        loadPaths: ['img/'],
-      }),
-      require('postcss-color-mix'),
-      require('postcss-color-function'),
-      require('postcss-responsive-type'),
-      require('postcss-responsive-images'),
-      require('postcss-media-minmax'),
-      require('lost'),
-      require('autoprefixer')({
-        browsers: ['last 2 versions', '> 5%', 'ie >= 8', 'Firefox > 2', 'Opera > 5']
-      }),
-      require('postcss-font-magician')({
-        formats: 'woff2 woff eot ttf svg otf',
-        // hosted: '../fonts/',
-        // custom: {
-        //   'FontFamily': {
-        //     variants: {
-        //       400: {
-        //         normal: {
-        //           url: {
-        //             eot:   '../fonts/webfont.eot',
-        //             svg:   '../fonts/webfont.svg',
-        //             ttf:   '../fonts/webfont.ttf',
-        //             woff:  '../fonts/webfont.woff',
-        //             woff2: '../fonts/webfont.woff2',
-        //           },
-        //         },
-        //       },
-        //     },
-        //   },
-        // },
-      }),
-      require('postcss-cachebuster')({
-        imagesPath: '/public',
-        cssPath: '/public/css',
-      }),
-    ];
-  },
   watchOptions: {
     poll: 1000,
   },
@@ -111,8 +65,14 @@ var config = {
 
 if(isProduction) {
 
-  config.module.loaders = _.union(config.module.loaders, [
-    { test: /\.(p)?css$/, loader: ExtractTextPlugin.extract('style', 'css?-url!postcss') },
+  config.module.rules = _.union(config.module.rules, [
+    {
+      test: /\.(p)?css$/,
+      loader: ExtractTextPlugin.extract(
+        'style-loader',
+        'css-loader?-url!postcss-loader'
+      ),
+    },
   ]);
 
   config.plugins = _.union(config.plugins, [
@@ -126,8 +86,11 @@ if(isProduction) {
 
   config.devtool = 'source-map';
 
-  config.module.loaders = _.union(config.module.loaders, [
-    { test: /\.(p)?css$/, loader: 'style!css?-url!postcss' },
+  config.module.rules = _.union(config.module.rules, [
+    {
+      test: /\.(p)?css$/,
+      loader: 'style-loader!css-loader?-url!postcss-loader',
+    },
   ]);
 
   config.plugins = _.union(config.plugins, [
