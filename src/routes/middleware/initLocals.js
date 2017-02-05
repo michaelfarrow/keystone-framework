@@ -35,7 +35,7 @@ exports = module.exports = function(req, res, next) {
 
   locals.bundle = function(path) {
     path = '/bundle/' + path;
-    return manifest && manifest[path] ? manifest[path] : null;
+    return manifest && manifest[path] ? manifest[path] : path;
   };
 
   next();
