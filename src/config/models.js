@@ -1,4 +1,3 @@
+var keystone = require('keystone')
 
-var keystone = require('keystone');
-
-keystone.import('./models');
+keystone.import('./models')

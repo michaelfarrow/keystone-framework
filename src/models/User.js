@@ -1,6 +1,5 @@
-
-var keystone = require('keystone');
-var Types = keystone.Field.Types;
+var keystone = require('keystone')
+var Types = keystone.Field.Types
 
 /**
 LIST OPTIONS
@@ -8,8 +7,8 @@ LIST OPTIONS
 
 var User = new keystone.List('User', {
   track: true,
-  defaultColumns: 'name, email',
-});
+  defaultColumns: 'name, email'
+})
 
 /**
 COMMON FIELDS
@@ -19,26 +18,26 @@ User.add({
   name: { type: Types.Name, required: true, index: true },
   email: { type: Types.Email, initial: true, required: true, index: true },
   password: { type: Types.Password, initial: true, required: false },
-  profileImage: { type: Types.CloudinaryImage, autoCleanup: true, folder: keystone.get('cloudinary prefix') + '/users', publicID: 'id' },
+  profileImage: { type: Types.CloudinaryImage, autoCleanup: true, folder: keystone.get('cloudinary prefix') + '/users', publicID: 'id' }
 }, 'Permissions', {
-  canAccessKeystone: { type: Boolean, initial: true, default: false },
-});
+  canAccessKeystone: { type: Boolean, initial: true, default: false }
+})
 
 /**
 VALIDATION FUNCTIONS
 */
 
 // Prevent user from disabling their own keystone access
-User.schema.pre('save', function(next) {
-  if(this._id && this._req_user && this._id.equals(this._req_user._id)){
-    this.set('canAccessKeystone', true);
+User.schema.pre('save', function (next) {
+  if (this._id && this._req_user && this._id.equals(this._req_user._id)) {
+    this.set('canAccessKeystone', true)
   }
-  next();
-});
+  next()
+})
 
 /**
 REGISTER MODEL & EXPORT
 We export the model because we may need to extend it later
 */
-User.register();
-exports = module.exports = User;
+User.register()
+exports = module.exports = User

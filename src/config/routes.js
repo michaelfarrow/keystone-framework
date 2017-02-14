@@ -1,4 +1,3 @@
+var keystone = require('keystone')
 
-var keystone = require('keystone');
-
-keystone.set('routes', require('../routes'));
+keystone.set('routes', require('../routes'))

@@ -1,4 +1,3 @@
+var keystone = require('keystone')
 
-var keystone = require('keystone');
-
-keystone.set('cookie secret', process.env.COOKIE_SECRET || 'development');
+keystone.set('cookie secret', process.env.COOKIE_SECRET || 'development')

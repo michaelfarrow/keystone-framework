@@ -1,7 +1,6 @@
-
-var keystone = require('keystone');
+var keystone = require('keystone')
 
 keystone.set('nav', {
   'pages': 'pages',
-  'site': ['options', 'users'],
-});
+  'site': ['options', 'users']
+})

@@ -1,2 +1,1 @@
-
-require('app.pcss');
+require('app.pcss')
