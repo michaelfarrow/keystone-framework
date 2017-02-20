@@ -7,13 +7,7 @@ keystone.set('404', function (req, res) {
 
 // Handle other errors
 keystone.set('500', function (err, req, res) {
-  var title, message
-  if (err instanceof Error) {
-    message = err.message
-    err = err.stack
-  }
-  console.log(err)
-  res.err(err, title, message)
+  res.err(err)
 })
 
 // load middleware
