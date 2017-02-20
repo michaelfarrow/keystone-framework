@@ -5,7 +5,7 @@ var app = express.Router()
 var importer = keystone.importer(__dirname)
 var middleware = importer('./middleware')
 
-_.each(_.values(middleware), function (f) {
+_.each(_.values(middleware.global), function (f) {
   app.all('*', f)
 })
 
