@@ -37,3 +37,12 @@ keystone.start(function () {
 })
 
 /* eslint-enable no-console */
+
+/**
+ * Mongoose model.save callback.
+ *
+ * @callback mongooseModelSaveCallback
+ * @param {Error|null} err - Error object if an error occurred.
+ * @param {*|null} instance - Saved model instance.
+ * @param {integer} numAffected - Number of rows affected.
+ */

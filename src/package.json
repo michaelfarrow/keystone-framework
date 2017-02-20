@@ -31,7 +31,8 @@
     "autoprefixer": "6.7.2",
     "postcss-responsive-type": "0.5.0",
     "postcss-font-magician": "1.6.0",
-    "normalize.css": "5.0.0"
+    "normalize.css": "5.0.0",
+    "jsdoc": "3.4.3"
   },
   "dependencies": {
     "keystone": "4.0.0-beta.5",
@@ -45,10 +46,16 @@
     "keystone-pages": "1.5.0"
   },
   "scripts": {
+    "docs"   : "node_modules/.bin/jsdoc -c jsdoc.json",
     "lint"   : "node_modules/.bin/standard",
     "dev"    : "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
     "watch"  : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
     "test"   : "npm run lint",
     "webpack": "node_modules/.bin/webpack"
+  },
+  "standard": {
+    "ignore": [
+      "docs"
+    ]
   }
 }
