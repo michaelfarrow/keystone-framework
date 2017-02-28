@@ -2,12 +2,12 @@ var keystone = require('keystone')
 
 // Handle 404 errors
 keystone.set('404', function (req, res) {
-  res.notfound()
+  require('./middleware/helpers/404')(req, res)
 })
 
 // Handle other errors
 keystone.set('500', function (err, req, res) {
-  res.err(err)
+  require('./middleware/helpers/500')(req, res, err)
 })
 
 // load middleware
