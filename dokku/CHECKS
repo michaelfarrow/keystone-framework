@@ -1,5 +1,6 @@
 /
 /keystone/signin
+/keystone/js/packages.js
 WAIT=10
 TIMEOUT=20
 ATTEMPTS=6
