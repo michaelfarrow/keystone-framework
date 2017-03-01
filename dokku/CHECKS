@@ -1,6 +1,10 @@
 /
 /keystone/signin
 /keystone/js/packages.js
+/keystone/styles/keystone.min.css
+/keystone/js/signin.js
+/keystone/js/fields.js
+/keystone/js/admin.js
 WAIT=10
 TIMEOUT=20
 ATTEMPTS=6
