@@ -1,5 +1,5 @@
 /
-/keystone
+/keystone/signin
 WAIT=10
 TIMEOUT=20
 ATTEMPTS=6
