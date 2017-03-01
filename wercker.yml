@@ -106,7 +106,7 @@ deploy:
         name: Add everything to the repository
         code: |
           git add .
-          git commit -m "Result of deploy $WERCKER_GIT_COMMIT"
+          git commit --quiet -m "Result of deploy $WERCKER_GIT_COMMIT"
     - script:
         name: Push to dokku
         code: |
