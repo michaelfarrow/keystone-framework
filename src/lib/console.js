@@ -22,3 +22,7 @@ console.log = function () {
   }
   debug.apply(this, args)
 }
+
+module.exports = {
+  withoutTime: log
+}
