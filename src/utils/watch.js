@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
   })
 
   var watcher = chokidar.watch([
+    './lib',
     './routes',
     './models'
   ], {
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
   watcher.on('ready', function () {
     watcher.on('all', function (event, path) {
       Object.keys(require.cache).forEach(function (id) {
-        if (/\/src\/routes\//.test(id)) {
+        if (/\/src\/routes\//.test(id) || /\/src\/lib\//.test(id)) {
           delete require.cache[id]
         }
 

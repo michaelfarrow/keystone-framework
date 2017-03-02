@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+require('./lib/console')
 
 console.log('Starting')
 var startTime = new Date().getTime()
@@ -9,6 +9,7 @@ keystone.init()
 require('./config/env')
 
 require('./config/app')
+require('./config/log')
 require('./config/db')
 require('./config/cookies')
 require('./config/sessions')
@@ -35,5 +36,3 @@ keystone.start(function () {
   console.log('Loaded in', ((endTime - startTime) / 1000) + 's')
   require('./utils/watch')
 })
-
-/* eslint-enable no-console */
