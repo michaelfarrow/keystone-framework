@@ -90,6 +90,8 @@ dokku storage:mount keystone /var/lib/dokku/data/keystone/uploads:/app/public/up
 dokku docker-options:add keystone deploy --restart=always
 
 # Set our config values
+dokku config:set keystone DEBUG="req,app,app:*"
+dokku config:set keystone DEBUG_COLORS="1"
 dokku config:set keystone COOKIE_SECRET="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c64)"
 dokku config:set keystone ADMIN_FIRST_NAME="[first name]"
 dokku config:set keystone ADMIN_LAST_NAME="[last name]"
