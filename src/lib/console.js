@@ -15,7 +15,7 @@ debug.log = log
 console.log = function () {
   var args = Array.from(arguments)
   if (args.length === 1 && _.isString(args[0])) {
-    var argLines = args[0].split('\n')
+    var argLines = args[0].trim().split('\n')
     return _.each(argLines, function (line) {
       debug.apply(this, [line])
     })
