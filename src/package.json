@@ -18,6 +18,8 @@
     "url-loader": "0.5.7",
     "style-loader": "0.13.1",
     "css-loader": "0.26.1",
+    "typescript": "2.1.5",
+    "ts-loader": "2.0.3",
     "postcss-loader": "1.2.2",
     "postcss-import": "9.1.0",
     "postcss-assets": "4.1.0",
@@ -31,7 +33,18 @@
     "autoprefixer": "6.7.2",
     "postcss-responsive-type": "0.5.0",
     "postcss-font-magician": "1.6.0",
-    "normalize.css": "5.0.0"
+    "normalize.css": "5.0.0",
+    "rxjs": "5.2.0",
+    "reflect-metadata": "0.1.10",
+    "zone.js": "0.8.5",
+    "@angular/common": "~4.0.0",
+    "@angular/compiler": "~4.0.0",
+    "@angular/core": "~4.0.0",
+    "@angular/forms": "~4.0.0",
+    "@angular/http": "~4.0.0",
+    "@angular/platform-browser": "~4.0.0",
+    "@angular/platform-browser-dynamic": "~4.0.0",
+    "@angular/router": "~4.0.0"
   },
   "dependencies": {
     "keystone": "4.0.0-beta.5",

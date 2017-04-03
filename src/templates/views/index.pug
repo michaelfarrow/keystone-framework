@@ -3,6 +3,7 @@ extends ../layouts/base
 block content
   .container
     .content
-      .title Keystone
-      .subtitle
-        span #{keystone.version.match(/^(\d+\.\d+\.\d+)/)[0]}
+      my-app
+        .title Keystone
+        .subtitle
+          span #{keystone.version.match(/^(\d+\.\d+\.\d+)/)[0]}

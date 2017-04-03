@@ -8,7 +8,7 @@ var isProduction = process.argv.indexOf('-p') >= 0
 
 var config = {
   entry: {
-    app: './public/js/app.js'
+    app: './public/js/main.ts'
   },
   output: {
     path: path.join(__dirname, 'public', 'bundle'),
@@ -16,14 +16,32 @@ var config = {
     publicPath: '/bundle/'
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
     modules: [
       __dirname,
       'node_modules',
       'public/css'
     ]
   },
-  module: { rules: [] },
+  module: {
+    exprContextCritical: false,
+    rules: [
+      {
+        test: /\.tsx?/,
+        loaders: ['ts-loader'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.(html|css)/,
+        use: 'raw-loader'
+      }
+    ]
+  },
   plugins: [
+    new webpack.ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      __dirname
+    ),
     function () {
       this.plugin('done', function (stats) {
         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('-p') !== -1) {
@@ -57,7 +75,7 @@ var config = {
 if (isProduction) {
   config.module.rules = _.union(config.module.rules, [
     {
-      test: /\.(p)?css$/,
+      test: /\.pcss$/,
       loader: ExtractTextPlugin.extract({
         fallbackLoader: 'style-loader',
         loader: 'css-loader?-url!postcss-loader'
@@ -76,7 +94,7 @@ if (isProduction) {
 
   config.module.rules = _.union(config.module.rules, [
     {
-      test: /\.(p)?css$/,
+      test: /\.pcss$/,
       loader: 'style-loader!css-loader?-url!postcss-loader'
     }
   ])
