@@ -9,7 +9,7 @@ import { WindowRef } from './WindowRef';
 })
 export class AppComponent {
   title = 'Keystone';
-  version: null;
+  version = '0';
   constructor(private winRef: WindowRef) {
     this.version = winRef.nativeWindow.version;
   }
