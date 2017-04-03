@@ -1,9 +1,10 @@
 extends ../layouts/base
 
+block head
+  script.
+    var version = '#{keystone.version.match(/^(\d+\.\d+\.\d+)/)[0]}';
+
 block content
   .container
     .content
       my-app
-        .title Keystone
-        .subtitle
-          span #{keystone.version.match(/^(\d+\.\d+\.\d+)/)[0]}
