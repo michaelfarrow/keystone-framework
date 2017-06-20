@@ -19,6 +19,7 @@ require('./config/assets');
 require('./config/images');
 require('./config/options');
 require('./config/templates');
+require('./config/wysiwyg');
 
 require('./config/models');
 require('./config/routes');
