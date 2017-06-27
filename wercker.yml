@@ -66,8 +66,8 @@ push:
     - script:
         name: Create environment variables
         code: |
-          APP_REPOSITORY="$REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE"
-          APP_REPOSITORY_FULL="$APP_REPOSITORY:$WERCKER_GIT_COMMIT"
+          export APP_REPOSITORY="$REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE"
+          export APP_REPOSITORY_FULL="$APP_REPOSITORY:$WERCKER_GIT_COMMIT"
     - internal/docker-push:
         username: $REGISTRY_USERNAME
         password: $REGISTRY_PASSWORD
