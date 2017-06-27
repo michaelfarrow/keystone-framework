@@ -73,8 +73,8 @@ push:
     - script:
         name: Move Dokku files
         code: |
-          mv dokku/nginx.conf.sigil /nginx.conf.sigil
-          mv dokku/CHECKS /CHECKS
+          mv dokku/nginx.conf.sigil /app/nginx.conf.sigil
+          mv dokku/CHECKS /app/CHECKS
           rm -rf dokku
     - internal/docker-push:
         username: $REGISTRY_USERNAME
