@@ -63,50 +63,25 @@ build:
 
 push:
   steps:
+    - script:
+        name: Create environment variables
+        code: |
+          APP_REPOSITORY="$REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE"
+          APP_REPOSITORY_FULL="$APP_REPOSITORY:$WERCKER_GIT_COMMIT"
     - internal/docker-push:
         username: $REGISTRY_USERNAME
         password: $REGISTRY_PASSWORD
         tag: $WERCKER_GIT_COMMIT
-        repository: $REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE
+        repository: $APP_REPOSITORY
         registry: https://$REGISTRY_HOST/v2
-    - script:
-        name: Create repo root
-        code: |
-          rm -rf /repo
-          mkdir /repo
-    - script:
-        name: Create Dockerfile
-        code: |
-          echo $REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE > Dockerfile
-          echo EXPOSE 80 > Dockerfile
-          echo WORKDIR /pipeline/source/src > Dockerfile
-          echo ENV NODE_ENV production > Dockerfile
-          echo CMD [ "node", "index" ] > Dockerfile
-        cwd: /repo
     - add-to-known_hosts:
         hostname: $DOKKU_HOST
     - add-ssh-key:
         keyname: DOKKU_KEY
     - script:
-        name: Initialize new repository
+        name: Deploy to Dokku
         code: |
-          rm -rf .git
-          git init
-          git config --global user.name "wercker"
-          git config --global user.email "pleasemailus@wercker.com"
-          git remote add dokku dokku@$DOKKU_HOST:$DOKKU_APP
-        cwd: /repo
-    - script:
-        name: Add everything to the repository
-        code: |
-          git add .
-          git commit --quiet -m "Result of deploy $WERCKER_GIT_COMMIT"
-        cwd: /repo
-    - script:
-        name: Push to dokku
-        code: |
-          git push -f dokku master
-        cwd: /repo
+          ssh $DOKKU_HOST "docker pull $APP_REPOSITORY_FULL | docker tag $APP_REPOSITORY_FULL dokku/$DOKKU_APP:$WERCKER_GIT_COMMIT | dokku tags:deploy $DOKKU_APP $WERCKER_GIT_COMMIT"
     # - script:
     #     name: generate kubernetes controller file
     #     code: ./node-controller.yml.sh
