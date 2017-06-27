@@ -60,6 +60,21 @@ build:
           cp -r src "$WERCKER_OUTPUT_DIR"
           cp -r dokku "$WERCKER_OUTPUT_DIR"
           mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+
+push:
+  steps:
+    - script:
+        name: list current directory
+        code: ls -la
+    - script:
+        name: list output directory
+        code: ls -la "$WERCKER_OUTPUT_DIR"
+    - internal/docker-push:
+        username: $REGISTRY_USERNAME
+        password: $REGISTRY_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: $REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE
+        registry: https://$REGISTRY_HOST/v2
     # - script:
     #     name: generate kubernetes controller file
     #     code: ./node-controller.yml.sh

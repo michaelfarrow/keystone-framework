@@ -56,6 +56,15 @@ The framework is setup to deploy to a Dokku instance using Wercker.
 6. Create three environment variables:
     - **DOKKU_HOST** - String - [your dokku host ip or fqdn]
     - **DOKKU_APP** - String - keystone
+    - **REGISTRY_HOST** - String - [private docker registry host]
+    - **REGISTRY_USERNAME** - String - [private docker registry username]
+    - **REGISTRY_PASSWORD** - String - [private docker registry password]
+    - **REGISTRY_IMAGE** - String - [private docker registry image]
+
+    X_REGISTRY_HOST=registry.aesopagency.com
+    X_REGISTRY_USERNAME=aesopagency
+    X_REGISTRY_PASSWORD=JtnuXXRxo6yfgdidGZXEypLE
+
 7. Go back to the `Workflows` tab
 8. click the `+ icon` next the the `build` workflow.
 9. Enter the branch you wish to deploy, select the pipeline you just created for the execute pipeline, and click `Add`
