@@ -58,8 +58,10 @@ build:
         name: export the application
         code: |
           cp -r src "$WERCKER_OUTPUT_DIR"
-          cp -r dokku "$WERCKER_OUTPUT_DIR"
-          mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/public/js"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/public/css"
+          # cp -r dokku "$WERCKER_OUTPUT_DIR"
+          # mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
 
 push:
   steps:
@@ -81,7 +83,7 @@ push:
     - script:
         name: Deploy to Dokku
         code: |
-          ssh $DOKKU_HOST "docker pull $APP_REPOSITORY_FULL | docker tag $APP_REPOSITORY_FULL dokku/$DOKKU_APP:$WERCKER_GIT_COMMIT | dokku tags:deploy $DOKKU_APP $WERCKER_GIT_COMMIT"
+          ssh root@$DOKKU_HOST "docker pull $APP_REPOSITORY_FULL | docker tag $APP_REPOSITORY_FULL dokku/$DOKKU_APP:$WERCKER_GIT_COMMIT | dokku tags:deploy $DOKKU_APP $WERCKER_GIT_COMMIT"
     # - script:
     #     name: generate kubernetes controller file
     #     code: ./node-controller.yml.sh
