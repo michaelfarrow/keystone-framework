@@ -83,7 +83,7 @@ push:
     - script:
         name: Deploy to Dokku
         code: |
-          ssh root@$DOKKU_HOST "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $REGISTRY_HOST & docker pull $APP_REPOSITORY_FULL & docker tag $APP_REPOSITORY_FULL dokku/$DOKKU_APP:$WERCKER_GIT_COMMIT & dokku tags:deploy $DOKKU_APP $WERCKER_GIT_COMMIT"
+          ssh root@$DOKKU_HOST "docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $REGISTRY_HOST && docker pull $APP_REPOSITORY_FULL && docker tag $APP_REPOSITORY_FULL dokku/$DOKKU_APP:$WERCKER_GIT_COMMIT && dokku tags:deploy $DOKKU_APP $WERCKER_GIT_COMMIT"
     # - script:
     #     name: generate kubernetes controller file
     #     code: ./node-controller.yml.sh
