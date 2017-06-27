@@ -76,6 +76,8 @@ push:
         tag: $WERCKER_GIT_COMMIT
         repository: $APP_REPOSITORY
         registry: https://$REGISTRY_HOST/v2
+        cmd: node /pipeline/source/src/index.js
+        ports: "80"
     - add-to-known_hosts:
         hostname: $DOKKU_HOST
     - add-ssh-key:
