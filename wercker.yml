@@ -66,12 +66,12 @@ build:
 push:
   steps:
     - script:
-        name: Create environment variables
+        name: create environment variables
         code: |
           export APP_REPOSITORY="$REGISTRY_HOST/$REGISTRY_USERNAME/$REGISTRY_IMAGE"
           export APP_REPOSITORY_FULL="$APP_REPOSITORY:$WERCKER_GIT_COMMIT"
     - script:
-        name: Move Dokku files
+        name: move dokku files
         code: |
           mkdir /app
           mv dokku/nginx.conf.sigil /app/nginx.conf.sigil
