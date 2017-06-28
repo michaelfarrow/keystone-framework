@@ -73,6 +73,7 @@ push:
     - script:
         name: Move Dokku files
         code: |
+          mkdir -f /app
           mv dokku/nginx.conf.sigil /app/nginx.conf.sigil
           mv dokku/CHECKS /app/CHECKS
           rm -rf dokku
