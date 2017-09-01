@@ -61,7 +61,7 @@ build:
           cp -r dokku "$WERCKER_OUTPUT_DIR"
           mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
 
-deploy:
+deploy-dokku:
   steps:
     - add-to-known_hosts:
         hostname: $DOKKU_HOST
@@ -84,3 +84,12 @@ deploy:
         name: Push to dokku
         code: |
           git push -f dokku master
+
+push-image:
+  steps:
+    - internal/docker-push:
+        username: $DOCKER_REGISTRY_USERNAME
+        password: $DOCKER_REGISTRY_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: $DOCKER_REGISTRY_USERNAME/$DOCKER_REGISTRY_REPO
+        registry: $DOCKER_REGISTRY
