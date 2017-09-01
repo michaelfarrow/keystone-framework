@@ -91,5 +91,5 @@ push-image:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
         tag: $WERCKER_GIT_COMMIT
-        repository: $DOCKER_REGISTRY_USERNAME/$DOCKER_REGISTRY_REPO
+        repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
