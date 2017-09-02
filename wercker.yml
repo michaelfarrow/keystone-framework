@@ -98,11 +98,11 @@ deploy-swarm:
         env: NODE_ENV=production,DEBUG=app app app:*,DEBUG_COLORS=1
         ports: "80"
     - add-to-known_hosts:
+        name: add to known hosts
         hostname: $DOCKER_SWARM_MANAGER
     - add-ssh-key:
+        name: add ssh key
         keyname: DOCKER_SWARM_KEY
-    - script:
-        name: Deploy image
     - weyforth/docker-swarm@0.1.1:
         name: deploy image
         manager: $DOCKER_SWARM_MANAGER

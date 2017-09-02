@@ -1,4 +1,5 @@
 require('app-module-path').addPath(__dirname)
+require('docker-secrets-to-env')
 
 require('lib/console')
 
