@@ -85,7 +85,7 @@ deploy-dokku:
         code: |
           git push -f dokku master
 
-push-image:
+deploy-swarm:
   steps:
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
@@ -93,3 +93,9 @@ push-image:
         tag: $WERCKER_GIT_COMMIT
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
+    - add-to-known_hosts:
+        hostname: $DOCKER_SWARM_HOST
+    - add-ssh-key:
+        keyname: DOCKER_SWARM_KEY
+    - code:
+      | docker service create --name keystone-framework --publish 80:80 --replicas 1 $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT
