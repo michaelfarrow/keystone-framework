@@ -87,6 +87,9 @@ deploy-dokku:
 
 deploy-swarm:
   steps:
+    - script:
+        name: Debug
+        code: env
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
