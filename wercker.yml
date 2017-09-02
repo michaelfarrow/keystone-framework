@@ -93,9 +93,19 @@ deploy-swarm:
         tag: $WERCKER_GIT_COMMIT
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
+        working-dir: $WERCKER_ROOT/src
+        cmd: node index
+        env: NODE_ENV=production
+        ports: "80"
     - add-to-known_hosts:
         hostname: $DOCKER_SWARM_HOST
     - add-ssh-key:
         keyname: DOCKER_SWARM_KEY
-    - code:
-      | docker service create --name keystone-framework --publish 80:80 --replicas 1 $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT
+    - script:
+        name: Deploy image
+        code: |
+          DOCKER_SWARM_REPLICAS=${DOCKER_SWARM_REPLICAS:-1}
+          DOCKER_SWARM_SERVICE_NAME=${DOCKER_SWARM_SERVICE_NAME:-$WERCKER_GIT_REPOSITORY}
+          ssh root@$DOCKER_SWARM_HOST "docker service ps $DOCKER_SWARM_SERVICE_NAME \
+          && docker service update --detach=false --update-order="start-first" --replicas $DOCKER_SWARM_REPLICAS --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
+          || docker service create --detach=false --name $DOCKER_SWARM_SERVICE_NAME --publish 80:80 --replicas $DOCKER_SWARM_REPLICAS --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
