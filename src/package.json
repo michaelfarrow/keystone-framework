@@ -52,6 +52,6 @@
     "watch"     : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
     "test"      : "npm run lint",
     "webpack"   : "node_modules/.bin/webpack",
-    "production": "NODE_ENV=production DEBUG=req,app,app:* DEBUG_COLORS=1 KEYSTONE_PREBUILD_ADMIN=true node index"
+    "production": "NODE_ENV=production DEBUG=req,app,app:* DEBUG_COLORS=1 node index"
   }
 }
