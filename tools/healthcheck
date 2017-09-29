@@ -1,0 +1,3 @@
+#!/bin/sh
+
+node "$WERCKER_ROOT/src/healthcheck.js"

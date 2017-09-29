@@ -60,6 +60,7 @@ build:
           cp -r src "$WERCKER_OUTPUT_DIR"
           cp -r dokku "$WERCKER_OUTPUT_DIR"
           mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          cp "$WERCKER_ROOT/tools/healthcheck" "$WERCKER_OUTPUT_DIR/healthcheck"
           rm -rf "$WERCKER_OUTPUT_DIR/src/node_modules"
           rm -rf "$WERCKER_OUTPUT_DIR/src/public/css"
     - npm-install:
@@ -102,6 +103,10 @@ docker-push:
         code: |
           rm -rf "$WERCKER_ROOT/Dockerfile"
           rm -rf "$WERCKER_ROOT/dokku"
+    - script:
+        name: add healthcheck
+        code: |
+          mv "$WERCKER_ROOT/healthcheck" /usr/bin/healthcheck
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
