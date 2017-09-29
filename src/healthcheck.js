@@ -1,4 +1,3 @@
-var keystone = require('keystone')
 var async = require('async')
 var http = require('http')
 
@@ -13,7 +12,7 @@ var check = [
 var doCheck = function (path, callback) {
   var options = {
     host: 'localhost',
-    port: keystone.get('port'),
+    port: process.argv[2] || 80,
     path: path,
     timeout: 60 * 1000
   }
