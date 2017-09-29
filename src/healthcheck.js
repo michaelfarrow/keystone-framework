@@ -20,7 +20,7 @@ var doCheck = function (path, callback) {
 
   var request = http.request(options, function (res) {
     console.log(`STATUS: ${res.statusCode} - ${path}`)
-    if (res.statusCode == 200) {
+    if (res.statusCode === 200) {
       callback(null)
     } else {
       callback(new Error(path + ' error: ' + res.statusCode))
