@@ -1,45 +1,6 @@
 box:
   id: node
   tag: 6.9.5
-  ports:
-    - '80'
-    - '3000'
-    - '3001'
-
-services:
-  - id: mongo
-    tag: 3.4.1
-    ports:
-     - '27017'
-
-dev:
-  steps:
-    - script:
-        name: check local environment
-        code: |
-          [[ -f ENVIRONMENT_LOCAL || "$(cat ENVIRONMENT_LOCAL.template | xargs)" == "" ]] || ( echo "No ENVIRONMENT_LOCAL present, please create one based on ENVIRONMENT_LOCAL.template" && exit 1 )
-        cwd: $WERCKER_ROOT
-    - npm-install:
-        name: install node dependencies
-        options: --no-optional
-    - script:
-        name: adding tools
-        code: |
-          ln -s "$WERCKER_ROOT/tools/log" /usr/bin/log
-          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/reload
-          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/restart
-    - script:
-        name: run
-        code: |
-          touch /var/log/keystone.log
-          touch /var/log/webpack.log
-          npm run dev >> /var/log/webpack.log 2>&1 &
-          npm run watch >> /var/log/keystone.log 2>&1 &
-    - internal/shell:
-        code: |
-          stty columns $TERMINAL_COLUMNS
-          stty rows $TERMINAL_ROWS
-          log
 
 build:
   steps:
