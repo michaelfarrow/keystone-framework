@@ -1,6 +1,6 @@
 box:
   id: node
-  tag: 6.9.5
+  tag: 8.11.0
 
 build:
   steps:

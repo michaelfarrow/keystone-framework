@@ -1,11 +1,11 @@
 version: '3'
 services:
   db:
-    image: mongo:3.4.1
+    image: mongo:3.6.3
     ports:
       - '27017:27017'
   main:
-    image: node:6.9.5
+    image: node:8.11.0
     ports:
       - '80:80'
       - '3000:3000'
